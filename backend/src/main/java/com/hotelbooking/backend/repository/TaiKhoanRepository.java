@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaiKhoanRepository extends JpaRepository<TaiKhoan, Integer> {
+    boolean existsByTenDangNhap(String tenDangNhap);
+    java.util.Optional<TaiKhoan> findByTenDangNhap(String tenDangNhap);
 }
