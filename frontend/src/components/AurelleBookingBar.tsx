@@ -8,7 +8,7 @@ interface AurelleBookingBarProps {
 }
 
 export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, isLoading }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [destination, setDestination] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
