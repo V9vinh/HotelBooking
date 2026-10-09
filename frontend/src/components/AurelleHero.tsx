@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AurelleHeroProps {
   onExploreClick: () => void;
 }
 
 export const AurelleHero: React.FC<AurelleHeroProps> = ({ onExploreClick }) => {
+  const { t } = useTranslation();
   return (
     <section
       style={{
@@ -109,7 +111,7 @@ export const AurelleHero: React.FC<AurelleHeroProps> = ({ onExploreClick }) => {
             textShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
           }}
         >
-          Find Your Own Paradise.
+          {t('hero.title')}
         </h1>
 
         {/* Subtitle */}
@@ -124,8 +126,7 @@ export const AurelleHero: React.FC<AurelleHeroProps> = ({ onExploreClick }) => {
             fontWeight: 300,
           }}
         >
-          Curated private villas, coastal retreats, and alpine pavilions designed for
-          effortless stillness, architectural wonder, and bespoke hospitality.
+          {t('hero.subtitle')}
         </p>
 
         {/* CTA Actions */}
@@ -139,7 +140,7 @@ export const AurelleHero: React.FC<AurelleHeroProps> = ({ onExploreClick }) => {
           }}
         >
           <button onClick={onExploreClick} className="btn-gold" style={{ padding: '15px 36px' }}>
-            <span>Explore Destinations</span>
+            <span>{t('hero.exploreBtn')}</span>
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
               arrow_forward
             </span>
@@ -154,7 +155,7 @@ export const AurelleHero: React.FC<AurelleHeroProps> = ({ onExploreClick }) => {
               padding: '14px 32px',
             }}
           >
-            View Collections
+            {t('nav.collections')}
           </a>
         </div>
       </div>

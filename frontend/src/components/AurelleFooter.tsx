@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const AurelleFooter: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -56,11 +58,10 @@ export const AurelleFooter: React.FC = () => {
                   borderRadius: '50%',
                 }}
               />
-              AURELLE STAYS
+              {t('footer.tag')}
             </div>
             <p style={{ fontSize: '14px', lineHeight: 1.8, color: '#B3B8B2', marginBottom: '24px' }}>
-              Bespoke resort sanctuaries for the discerning traveler. Curated architectural stillness
-              across the world’s most mesmerizing horizons.
+              {t('footer.description')}
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
               <a
@@ -129,34 +130,16 @@ export const AurelleFooter: React.FC = () => {
                 letterSpacing: '0.05em',
               }}
             >
-              Destinations
+              {t('footer.destinations')}
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <li>
-                <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Amalfi Coast, Italy
-                </a>
-              </li>
-              <li>
-                <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Arashiyama, Kyoto, Japan
-                </a>
-              </li>
-              <li>
-                <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  St. Barts, French West Indies
-                </a>
-              </li>
-              <li>
-                <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Zermatt, Swiss Alps
-                </a>
-              </li>
-              <li>
-                <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Santorini, Cyclades
-                </a>
-              </li>
+              {(t('footerLinks.destinations', { returnObjects: true }) as string[]).map((dest, i) => (
+                <li key={i}>
+                  <a href="#destinations" style={{ fontSize: '14px', color: '#B3B8B2' }}>
+                    {dest}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -171,34 +154,16 @@ export const AurelleFooter: React.FC = () => {
                 letterSpacing: '0.05em',
               }}
             >
-              Collections & Policies
+              {t('footer.collectionsPolicies')}
             </h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <li>
-                <a href="#collections" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Beachfront Havens
-                </a>
-              </li>
-              <li>
-                <a href="#collections" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Alpine & Cedar Pavilions
-                </a>
-              </li>
-              <li>
-                <a href="#collections" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Private Island Buyouts
-                </a>
-              </li>
-              <li>
-                <a href="#" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Cancellation & Discretion
-                </a>
-              </li>
-              <li>
-                <a href="#" style={{ fontSize: '14px', color: '#B3B8B2' }}>
-                  Private Aviation Services
-                </a>
-              </li>
+              {(t('footerLinks.policies', { returnObjects: true }) as string[]).map((policy, i) => (
+                <li key={i}>
+                  <a href="#collections" style={{ fontSize: '14px', color: '#B3B8B2' }}>
+                    {policy}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -213,16 +178,16 @@ export const AurelleFooter: React.FC = () => {
                 letterSpacing: '0.05em',
               }}
             >
-              The Aurelle Journal
+              {t('footer.journal')}
             </h4>
             <p style={{ fontSize: '13px', color: '#B3B8B2', lineHeight: 1.6, marginBottom: '18px' }}>
-              Receive our quarterly monograph on architectural travel, private previews, and unlisted stays.
+              {t('footer.journalDesc')}
             </p>
 
             <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder={t('footer.emailPh')}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -247,18 +212,18 @@ export const AurelleFooter: React.FC = () => {
                   width: '100%',
                 }}
               >
-                Join Private Monograph
+                {t('footer.joinBtn')}
               </button>
             </form>
 
             {newsletterStatus === 'success' && (
               <div style={{ marginTop: '10px', fontSize: '12px', color: '#34D399' }}>
-                ✓ Welcome. You are now inscribed into the Aurelle Journal private edition.
+                {t('footer.successMsg')}
               </div>
             )}
             {newsletterStatus === 'error' && (
               <div style={{ marginTop: '10px', fontSize: '12px', color: '#F87171' }}>
-                Please enter a valid email address.
+                {t('footer.errorMsg')}
               </div>
             )}
           </div>
@@ -279,10 +244,10 @@ export const AurelleFooter: React.FC = () => {
           }}
         >
           <div>
-            © {new Date().getFullYear()} AURELLE STAYS LTD. All rights reserved.
+            {t('footer.copyright')}
           </div>
           <div>
-            *Illustrative luxury hospitality showcase. No real booking or payment processing occurs.*
+            {t('footer.disclaimer')}
           </div>
         </div>
       </div>

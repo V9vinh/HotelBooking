@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AurelleHeaderProps {
   onFindStayClick: () => void;
 }
 
 export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick }) => {
+  const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -96,7 +98,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
             >
-              Destinations
+              {t('nav.destinations')}
             </button>
             <button
               onClick={() => scrollToSection('collections')}
@@ -111,7 +113,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
             >
-              Collections
+              {t('nav.collections')}
             </button>
             <button
               onClick={() => scrollToSection('special-offers')}
@@ -126,7 +128,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
             >
-              Special Offers
+              {t('nav.offers')}
             </button>
             <button
               onClick={() => scrollToSection('experience')}
@@ -141,12 +143,51 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
             >
-              The Experience
+              {t('nav.experience')}
             </button>
           </nav>
 
           {/* Right Action */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <button
+              onClick={() => i18n.changeLanguage(i18n.language === 'vi' ? 'en' : 'vi')}
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--color-champagne)',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                color: 'var(--color-forest)',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>language</span>
+              {i18n.language === 'vi' ? 'EN' : 'VI'}
+            </button>
+            <button
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--color-forest)',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                person
+              </span>
+              {t('header.signIn')}
+            </button>
             <button
               onClick={onFindStayClick}
               className="btn-gold"
@@ -158,7 +199,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
                 calendar_today
               </span>
-              Find a Stay
+              {t('header.findStay')}
             </button>
 
             {/* Mobile Hamburger Toggle */}
@@ -219,7 +260,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
                 borderBottom: '1px solid #ECE6DB',
               }}
             >
-              Destinations
+              {t('nav.destinations')}
             </button>
             <button
               onClick={() => scrollToSection('collections')}
@@ -232,7 +273,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
                 borderBottom: '1px solid #ECE6DB',
               }}
             >
-              Collections
+              {t('nav.collections')}
             </button>
             <button
               onClick={() => scrollToSection('special-offers')}
@@ -245,7 +286,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
                 borderBottom: '1px solid #ECE6DB',
               }}
             >
-              Special Offers
+              {t('nav.offers')}
             </button>
             <button
               onClick={() => scrollToSection('experience')}
@@ -258,7 +299,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
                 borderBottom: '1px solid #ECE6DB',
               }}
             >
-              The Experience
+              {t('nav.experience')}
             </button>
             <button
               onClick={() => {
@@ -268,7 +309,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               className="btn-gold"
               style={{ marginTop: '12px', width: '100%' }}
             >
-              Find a Stay
+              {t('header.findStay')}
             </button>
           </div>
         </div>

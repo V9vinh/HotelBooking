@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { HotelStay } from '../types/aurelle';
 
 interface AurelleDetailModalProps {
@@ -7,9 +8,15 @@ interface AurelleDetailModalProps {
 }
 
 export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, onClose }) => {
+  const { t, i18n } = useTranslation();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [nights, setNights] = useState(3);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [extraServices, setExtraServices] = useState<number[]>([]);
+  const [dbServices, setDbServices] = useState<any[]>([]);
+  const [promoDiscount, setPromoDiscount] = useState<number>(0);
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -21,12 +28,53 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
+    // Fetch services
+    fetch('http://localhost:8088/api/services')
+      .then(res => res.json())
+      .then(data => setDbServices(data))
+      .catch(console.error);
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [stay, onClose]);
 
   if (!stay) return null;
 
-  const totalEstimate = stay.pricePerNight * nights;
+  const serviceMultiplier = i18n.language.startsWith('vi') ? 25000 : 1;
+  const extraCost = extraServices.reduce((total, id) => {
+    const s = dbServices.find(serv => serv.maDichVu === id);
+    return total + (s ? s.gia : 0);
+  }, 0) * serviceMultiplier;
+  const discount = promoDiscount * serviceMultiplier;
+  const totalEstimate = stay.pricePerNight * nights + extraCost - discount;
+
+  const handleApplyPromo = () => {
+    if (!promoCode) return;
+    fetch(`http://localhost:8088/api/promotions/check?code=${promoCode}`)
+      .then(res => {
+        if (!res.ok) {
+          setIsPromoApplied(false);
+          setPromoDiscount(0);
+          alert(t('modal.invalidPromo', 'Invalid or expired promo code.'));
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data) {
+          setIsPromoApplied(true);
+          setPromoDiscount(data.soTienGiam);
+        }
+      })
+      .catch(console.error);
+  };
+
+  const formatPrice = (amount: number) => {
+    if (i18n.language.startsWith('vi')) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+    return `$${amount.toLocaleString()}`;
+  };
 
   return (
     <div
@@ -171,13 +219,13 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
 
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: '26px', fontWeight: 700, color: 'var(--color-forest)' }}>
-                ${stay.pricePerNight}{' '}
+                {formatPrice(stay.pricePerNight)}{' '}
                 <span style={{ fontSize: '13px', fontWeight: 400, color: 'var(--color-charcoal-muted)' }}>
-                  / night
+                  {t('featured.night')}
                 </span>
               </div>
               <div style={{ fontSize: '12px', color: 'var(--color-charcoal-muted)' }}>
-                ★ {stay.rating} ({stay.reviewsCount} verified reviews)
+                ★ {stay.rating} ({stay.reviewsCount} {t('modal.reviews')})
               </div>
             </div>
           </div>
@@ -197,34 +245,34 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
           >
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Capacity
+                {t('modal.capacity')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                Up to {stay.specs.guests} Guests
+                {t('modal.upTo')} {stay.specs.guests} {t('modal.guests')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Bedrooms
+                {t('modal.bedrooms')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.bedrooms} Luxury Suites
+                {stay.specs.bedrooms} {t('modal.suites')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Bathrooms
+                {t('modal.bathrooms')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.bathrooms} Marble Baths
+                {stay.specs.bathrooms} {t('modal.baths')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Living Space
+                {t('modal.livingSpace')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.areaSqFt} sq ft
+                {stay.specs.areaSqFt} {t('modal.sqft')}
               </div>
             </div>
           </div>
@@ -240,7 +288,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 marginBottom: '10px',
               }}
             >
-              Estate Overview
+              {t('modal.overview')}
             </h4>
             <p style={{ fontSize: '14px', color: 'var(--color-charcoal-muted)', lineHeight: 1.8 }}>
               {stay.description}
@@ -258,7 +306,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 marginBottom: '12px',
               }}
             >
-              Signature Inclusions
+              {t('modal.inclusions')}
             </h4>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {stay.amenities.map((item, idx) => (
@@ -303,15 +351,15 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
             >
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-forest)' }}>
-                  Reserve This Sanctuary
+                  {t('modal.reserve')}
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)' }}>
-                  *UI Demo Simulation — No real payment required*
+                  {t('modal.demoNote')}
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>Duration:</span>
+                <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>{t('modal.duration')}</span>
                 <select
                   value={nights}
                   onChange={(e) => setNights(Number(e.target.value))}
@@ -323,14 +371,79 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                     fontSize: '13px',
                   }}
                 >
-                  <option value={2}>2 Nights</option>
-                  <option value={3}>3 Nights</option>
-                  <option value={5}>5 Nights</option>
-                  <option value={7}>7 Nights</option>
+                  <option value={2}>2 {t('modal.nights')}</option>
+                  <option value={3}>3 {t('modal.nights')}</option>
+                  <option value={5}>5 {t('modal.nights')}</option>
+                  <option value={7}>7 {t('modal.nights')}</option>
                 </select>
                 <div style={{ fontWeight: 700, fontSize: '18px', color: 'var(--color-champagne)' }}>
-                  Total: ${totalEstimate.toLocaleString()}
+                  {t('modal.total')} {formatPrice(totalEstimate)}
                 </div>
+              </div>
+            </div>
+
+            {/* Extra Services & Promo Code */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '16px', marginBottom: '20px' }}>
+              <div style={{ flex: 1, minWidth: '200px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-charcoal-muted)', marginBottom: '8px', display: 'block' }}>
+                  {t('modal.extraServices')}
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {dbServices.map(service => (
+                    <label key={service.maDichVu} style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <input 
+                        type="checkbox" 
+                        checked={extraServices.includes(service.maDichVu)} 
+                        onChange={(e) => {
+                          if (e.target.checked) setExtraServices([...extraServices, service.maDichVu]);
+                          else setExtraServices(extraServices.filter(id => id !== service.maDichVu));
+                        }} 
+                      />
+                      {service.tenDichVu} (+{formatPrice(service.gia * serviceMultiplier)})
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ flex: 1, minWidth: '200px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-charcoal-muted)', marginBottom: '8px', display: 'block' }}>
+                  {t('modal.promoCode')}
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="e.g. VIP"
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      border: '1px solid var(--color-border-hairline)',
+                      borderRadius: '4px',
+                      fontSize: '13px'
+                    }}
+                  />
+                  <button 
+                    onClick={handleApplyPromo}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: 'var(--color-charcoal)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: 600
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+                {isPromoApplied && (
+                  <div style={{ marginTop: '8px', fontSize: '12px', color: '#065F46' }}>
+                    ✓ Promo applied! -{formatPrice(discount)}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -352,8 +465,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                   check_circle
                 </span>
                 <span>
-                  Inquiry submitted! Our bespoke concierge will prepare your private itinerary for{' '}
-                  <strong>{stay.title}</strong> within 2 hours.
+                  {t('modal.success', { stay: stay.title })}
                 </span>
               </div>
             ) : (
@@ -362,7 +474,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 className="btn-gold"
                 style={{ width: '100%', padding: '14px' }}
               >
-                Request Sanctuary Reservation
+                {t('modal.requestBtn')}
               </button>
             )}
           </div>
