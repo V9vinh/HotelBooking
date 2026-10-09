@@ -38,4 +38,24 @@ public class LoaiPhongController {
             @RequestParam(required = false) Integer guests) {
         return ResponseEntity.ok(loaiPhongService.searchLoaiPhong(destination, checkIn, checkOut, guests));
     }
+
+    @PostMapping("/types")
+    public ResponseEntity<LoaiPhong> createRoomType(@RequestBody LoaiPhong loaiPhong) {
+        return ResponseEntity.ok(loaiPhongService.createLoaiPhong(loaiPhong));
+    }
+
+    @PutMapping("/types/{id}")
+    public ResponseEntity<LoaiPhong> updateRoomType(@PathVariable Integer id, @RequestBody LoaiPhong loaiPhong) {
+        LoaiPhong updated = loaiPhongService.updateLoaiPhong(id, loaiPhong);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/types/{id}")
+    public ResponseEntity<Void> deleteRoomType(@PathVariable Integer id) {
+        loaiPhongService.deleteLoaiPhong(id);
+        return ResponseEntity.ok().build();
+    }
 }
