@@ -5,8 +5,10 @@ import com.hotelbooking.backend.dto.BookingResponse;
 
 import java.util.List;
 import com.hotelbooking.backend.dto.BookingHistoryDTO;
+import com.hotelbooking.backend.dto.PaymentRequestDTO;
 
 public interface BookingService {
     BookingResponse bookRoom(BookingRequest request);
     List<BookingHistoryDTO> getBookingHistory(Integer maKhachHang);
+    BookingResponse payBooking(Integer maPhieu, PaymentRequestDTO paymentRequest);
 }
