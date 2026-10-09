@@ -29,4 +29,13 @@ public class LoaiPhongController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<LoaiPhong>> searchRooms(
+            @RequestParam(required = false) String destination,
+            @RequestParam(required = false) String checkIn,
+            @RequestParam(required = false) String checkOut,
+            @RequestParam(required = false) Integer guests) {
+        return ResponseEntity.ok(loaiPhongService.searchLoaiPhong(destination, checkIn, checkOut, guests));
+    }
 }

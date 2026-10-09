@@ -82,22 +82,65 @@ export default function App() {
     setSearchLoading(true);
     setSearchFeedback(null);
 
-    setTimeout(() => {
-      setSearchLoading(false);
-      if (query.destination) {
-        setSearchFilter(query.destination);
-        setSearchFeedback(`Found sanctuaries matching "${query.destination}" for ${query.guests} guests.`);
-      } else {
-        setSearchFilter(null);
-        setSearchFeedback(`Showing all sanctuaries across all global destinations for ${query.guests} guests.`);
-      }
+    const queryParams = new URLSearchParams();
+    if (query.destination) queryParams.append('destination', query.destination);
+    if (query.checkIn) queryParams.append('checkIn', query.checkIn);
+    if (query.checkOut) queryParams.append('checkOut', query.checkOut);
+    if (query.guests) queryParams.append('guests', query.guests.toString());
 
-      // Smooth scroll to destinations section
-      const element = document.getElementById('destinations');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 400);
+    fetch(`http://localhost:8088/api/rooms/search?${queryParams.toString()}`)
+      .then(res => res.json())
+      .then((data: any[]) => {
+        const { FEATURED_STAYS: fallbackStays } = getAurelleData(i18n.language);
+        const mappedStays: HotelStay[] = data.map((room, index) => {
+          const fallback = fallbackStays[index % fallbackStays.length];
+          return {
+            id: `room-${room.maLoaiPhong}`,
+            title: room.tenLoaiPhong,
+            subtitle: fallback.subtitle,
+            location: fallback.location,
+            country: fallback.country,
+            pricePerNight: i18n.language.startsWith('vi') ? room.giaCoBan * 25000 : room.giaCoBan,
+            rating: fallback.rating,
+            reviewsCount: fallback.reviewsCount,
+            imageUrl: fallback.imageUrl,
+            gallery: fallback.gallery,
+            description: room.moTa,
+            collection: fallback.collection,
+            amenities: room.tienNghi.split(',').map((s: string) => s.trim()),
+            highlights: fallback.highlights,
+            specs: {
+              guests: room.sucChua,
+              bedrooms: Math.max(1, Math.floor(room.sucChua / 2)),
+              bathrooms: Math.max(1, Math.floor(room.sucChua / 2)),
+              areaSqFt: 1000 + (room.sucChua * 200),
+              hasInfinityPool: fallback.specs.hasInfinityPool,
+              hasPrivateButler: fallback.specs.hasPrivateButler,
+            }
+          };
+        });
+        setDbStays(mappedStays);
+        
+        if (query.destination) {
+          setSearchFilter(query.destination);
+          setSearchFeedback(`Tìm thấy ${mappedStays.length} phòng trống tại "${query.destination}" cho ${query.guests} khách.`);
+        } else {
+          setSearchFilter(null);
+          setSearchFeedback(`Tìm thấy ${mappedStays.length} phòng trống cho ${query.guests} khách.`);
+        }
+
+        const element = document.getElementById('destinations');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      })
+      .catch(err => {
+        console.error("Search failed", err);
+        setSearchFeedback('Có lỗi xảy ra khi tìm kiếm phòng.');
+      })
+      .finally(() => {
+        setSearchLoading(false);
+      });
   };
 
   const handleCollectionSelect = (cat: CollectionType) => {
