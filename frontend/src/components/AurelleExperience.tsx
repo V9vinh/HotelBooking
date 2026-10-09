@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Testimonial } from '../types/aurelle';
 
 interface AurelleExperienceProps {
@@ -6,6 +7,7 @@ interface AurelleExperienceProps {
 }
 
 export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonials }) => {
+  const { t } = useTranslation();
   return (
     <section id="experience" style={{ padding: '90px 0 100px' }}>
       <div className="container-luxe">
@@ -30,7 +32,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
                 marginBottom: '12px',
               }}
             >
-              The Aurelle Philosophy
+              {t('experience.tag')}
             </div>
             <h2
               style={{
@@ -42,7 +44,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
                 marginBottom: '24px',
               }}
             >
-              Quiet Luxury, Effortless Discovery.
+              {t('experience.title')}
             </h2>
             <p
               style={{
@@ -278,7 +280,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
                 marginBottom: '6px',
               }}
             >
-              Guest Chronicles
+              {t('experience.tag')}
             </div>
             <h2
               style={{
@@ -288,7 +290,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
                 fontWeight: 400,
               }}
             >
-              Voices of Stillness
+              {t('experience.title')}
             </h2>
             <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', marginTop: '4px' }}>
               *(Illustrative sample guest reviews)*

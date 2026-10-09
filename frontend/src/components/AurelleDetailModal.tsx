@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { HotelStay } from '../types/aurelle';
 
 interface AurelleDetailModalProps {
@@ -7,6 +8,7 @@ interface AurelleDetailModalProps {
 }
 
 export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, onClose }) => {
+  const { t } = useTranslation();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [nights, setNights] = useState(3);
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -173,11 +175,11 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
               <div style={{ fontSize: '26px', fontWeight: 700, color: 'var(--color-forest)' }}>
                 ${stay.pricePerNight}{' '}
                 <span style={{ fontSize: '13px', fontWeight: 400, color: 'var(--color-charcoal-muted)' }}>
-                  / night
+                  {t('featured.night')}
                 </span>
               </div>
               <div style={{ fontSize: '12px', color: 'var(--color-charcoal-muted)' }}>
-                ★ {stay.rating} ({stay.reviewsCount} verified reviews)
+                ★ {stay.rating} ({stay.reviewsCount} {t('modal.reviews')})
               </div>
             </div>
           </div>
@@ -197,34 +199,34 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
           >
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Capacity
+                {t('modal.capacity')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                Up to {stay.specs.guests} Guests
+                {t('modal.upTo')} {stay.specs.guests} {t('modal.guests')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Bedrooms
+                {t('modal.bedrooms')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.bedrooms} Luxury Suites
+                {stay.specs.bedrooms} {t('modal.suites')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Bathrooms
+                {t('modal.bathrooms')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.bathrooms} Marble Baths
+                {stay.specs.bathrooms} {t('modal.baths')}
               </div>
             </div>
             <div>
               <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                Living Space
+                {t('modal.livingSpace')}
               </div>
               <div style={{ fontWeight: 600, color: 'var(--color-forest)', fontSize: '14px' }}>
-                {stay.specs.areaSqFt} sq ft
+                {stay.specs.areaSqFt} {t('modal.sqft')}
               </div>
             </div>
           </div>
@@ -240,7 +242,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 marginBottom: '10px',
               }}
             >
-              Estate Overview
+              {t('modal.overview')}
             </h4>
             <p style={{ fontSize: '14px', color: 'var(--color-charcoal-muted)', lineHeight: 1.8 }}>
               {stay.description}
@@ -258,7 +260,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 marginBottom: '12px',
               }}
             >
-              Signature Inclusions
+              {t('modal.inclusions')}
             </h4>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {stay.amenities.map((item, idx) => (
@@ -303,15 +305,15 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
             >
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-forest)' }}>
-                  Reserve This Sanctuary
+                  {t('modal.reserve')}
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)' }}>
-                  *UI Demo Simulation — No real payment required*
+                  {t('modal.demoNote')}
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>Duration:</span>
+                <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>{t('modal.duration')}</span>
                 <select
                   value={nights}
                   onChange={(e) => setNights(Number(e.target.value))}
@@ -323,13 +325,13 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                     fontSize: '13px',
                   }}
                 >
-                  <option value={2}>2 Nights</option>
-                  <option value={3}>3 Nights</option>
-                  <option value={5}>5 Nights</option>
-                  <option value={7}>7 Nights</option>
+                  <option value={2}>2 {t('modal.nights')}</option>
+                  <option value={3}>3 {t('modal.nights')}</option>
+                  <option value={5}>5 {t('modal.nights')}</option>
+                  <option value={7}>7 {t('modal.nights')}</option>
                 </select>
                 <div style={{ fontWeight: 700, fontSize: '18px', color: 'var(--color-champagne)' }}>
-                  Total: ${totalEstimate.toLocaleString()}
+                  {t('modal.total')} ${totalEstimate.toLocaleString()}
                 </div>
               </div>
             </div>
@@ -352,8 +354,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                   check_circle
                 </span>
                 <span>
-                  Inquiry submitted! Our bespoke concierge will prepare your private itinerary for{' '}
-                  <strong>{stay.title}</strong> within 2 hours.
+                  {t('modal.success', { stay: stay.title })}
                 </span>
               </div>
             ) : (
@@ -362,7 +363,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 className="btn-gold"
                 style={{ width: '100%', padding: '14px' }}
               >
-                Request Sanctuary Reservation
+                {t('modal.requestBtn')}
               </button>
             )}
           </div>

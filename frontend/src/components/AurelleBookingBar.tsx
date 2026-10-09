@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { BookingSearchQuery } from '../types/aurelle';
 
 interface AurelleBookingBarProps {
@@ -7,11 +8,21 @@ interface AurelleBookingBarProps {
 }
 
 export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, isLoading }) => {
+  const { t } = useTranslation();
   const [destination, setDestination] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  const [isCheckInFocused, setIsCheckInFocused] = useState(false);
+  const [isCheckOutFocused, setIsCheckOutFocused] = useState(false);
+
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return '';
+    const [y, m, d] = dateStr.split('-');
+    return i18n.language.startsWith('vi') ? `${d}/${m}/${y}` : `${m}/${d}/${y}`;
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +84,7 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             <span className="material-symbols-outlined" style={{ fontSize: '15px', color: 'var(--color-champagne)' }}>
               location_on
             </span>
-            Destination
+            {t('search.where')}
           </label>
           <select
             value={destination}
@@ -89,11 +100,11 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
               cursor: 'pointer',
             }}
           >
-            <option value="">All Sanctuaries (Global)</option>
-            <option value="Amalfi Coast">Amalfi Coast, Italy</option>
-            <option value="Kyoto">Arashiyama, Kyoto, Japan</option>
-            <option value="St. Barts">St. Barts, French West Indies</option>
-            <option value="Zermatt">Zermatt, Switzerland</option>
+            <option value="">{t('search.options.destinations.all')}</option>
+            <option value="Amalfi Coast">{t('search.options.destinations.amalfi')}</option>
+            <option value="Kyoto">{t('search.options.destinations.kyoto')}</option>
+            <option value="St. Barts">{t('search.options.destinations.stbarts')}</option>
+            <option value="Zermatt">{t('search.options.destinations.zermatt')}</option>
           </select>
         </div>
 
@@ -117,8 +128,10 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             Check-In
           </label>
           <input
-            type="date"
-            value={checkIn}
+            type={isCheckInFocused || !checkIn ? 'date' : 'text'}
+            onFocus={() => setIsCheckInFocused(true)}
+            onBlur={() => setIsCheckInFocused(false)}
+            value={isCheckInFocused || !checkIn ? checkIn : formatDate(checkIn)}
             onChange={(e) => {
               setCheckIn(e.target.value);
               setValidationError(null);
@@ -131,6 +144,9 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
               backgroundColor: 'var(--color-ivory-surface)',
               color: 'var(--color-charcoal)',
               outline: 'none',
+              cursor: 'text',
+              width: '100%',
+              boxSizing: 'border-box'
             }}
           />
         </div>
@@ -155,8 +171,10 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             Check-Out
           </label>
           <input
-            type="date"
-            value={checkOut}
+            type={isCheckOutFocused || !checkOut ? 'date' : 'text'}
+            onFocus={() => setIsCheckOutFocused(true)}
+            onBlur={() => setIsCheckOutFocused(false)}
+            value={isCheckOutFocused || !checkOut ? checkOut : formatDate(checkOut)}
             onChange={(e) => {
               setCheckOut(e.target.value);
               setValidationError(null);
@@ -169,6 +187,9 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
               backgroundColor: 'var(--color-ivory-surface)',
               color: 'var(--color-charcoal)',
               outline: 'none',
+              cursor: 'text',
+              width: '100%',
+              boxSizing: 'border-box'
             }}
           />
         </div>
@@ -190,7 +211,7 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             <span className="material-symbols-outlined" style={{ fontSize: '15px', color: 'var(--color-champagne)' }}>
               group
             </span>
-            Guests
+            {t('search.guests')}
           </label>
           <select
             value={guests}
@@ -206,11 +227,11 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
               cursor: 'pointer',
             }}
           >
-            <option value={1}>1 Guest (Solo Sanctuary)</option>
-            <option value={2}>2 Guests (Couples Retreat)</option>
-            <option value={4}>4 Guests (Family Suite)</option>
-            <option value={6}>6 Guests (Private Villa)</option>
-            <option value={8}>8+ Guests (Estate Buyout)</option>
+            <option value={1}>{t('search.options.guests.g1')}</option>
+            <option value={2}>{t('search.options.guests.g2')}</option>
+            <option value={4}>{t('search.options.guests.g4')}</option>
+            <option value={6}>{t('search.options.guests.g6')}</option>
+            <option value={8}>{t('search.options.guests.g8')}</option>
           </select>
         </div>
 
@@ -228,13 +249,13 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             }}
           >
             {isLoading ? (
-              <span>Searching...</span>
+              <span>{t('search.searching')}</span>
             ) : (
               <>
                 <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
                   search
                 </span>
-                <span>Find a Stay</span>
+                <span>{t('search.searchBtn')}</span>
               </>
             )}
           </button>

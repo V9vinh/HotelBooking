@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { HotelStay } from '../types/aurelle';
 
 interface AurelleFeaturedStaysProps {
@@ -14,6 +15,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
   activeCollectionFilter,
   onClearFilter,
 }) => {
+  const { t } = useTranslation();
   return (
     <section id="destinations" style={{ padding: '60px 0 80px' }}>
       <div className="container-luxe">
@@ -39,7 +41,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                 marginBottom: '8px',
               }}
             >
-              Handcrafted Hospitality
+              {t('featured.tag')}
             </div>
             <h2
               style={{
@@ -49,7 +51,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                 fontWeight: 400,
               }}
             >
-              Featured Sanctuaries
+              {t('featured.title')}
             </h2>
           </div>
 
@@ -64,7 +66,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                   cursor: 'pointer',
                 }}
               >
-                Reset Filter ({activeCollectionFilter})
+                {t('featured.resetFilter')} ({activeCollectionFilter})
               </button>
             )}
             <span
@@ -73,7 +75,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                 color: 'var(--color-charcoal-muted)',
               }}
             >
-              Showing {stays.length} curated stays
+              {t('featured.showing')} {stays.length} {t('featured.curatedStays')}
             </span>
           </div>
         </div>
@@ -247,11 +249,11 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                     marginBottom: '20px',
                   }}
                 >
-                  <span>{stay.specs.guests} Guests</span>
+                  <span>{stay.specs.guests} {t('featured.guests')}</span>
                   <span>•</span>
-                  <span>{stay.specs.bedrooms} Suites</span>
+                  <span>{stay.specs.bedrooms} {t('featured.suites')}</span>
                   <span>•</span>
-                  <span>{stay.specs.areaSqFt} sq ft</span>
+                  <span>{stay.specs.areaSqFt} {t('featured.sqft')}</span>
                 </div>
 
                 {/* Card Footer: Nightly Price & Aligned CTA */}
@@ -267,12 +269,12 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                 >
                   <div>
                     <div style={{ fontSize: '11px', color: 'var(--color-charcoal-muted)', textTransform: 'uppercase' }}>
-                      From
+                      {t('featured.from')}
                     </div>
                     <div style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-forest)' }}>
                       ${stay.pricePerNight}{' '}
                       <span style={{ fontSize: '12px', fontWeight: 400, color: 'var(--color-charcoal-muted)' }}>
-                        / night
+                        {t('featured.night')}
                       </span>
                     </div>
                   </div>
@@ -282,7 +284,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                     className="btn-outline-luxe"
                     style={{ padding: '9px 18px', fontSize: '12px' }}
                   >
-                    View Details
+                    {t('featured.viewDetails')}
                   </button>
                 </div>
               </div>

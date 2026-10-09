@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { CollectionCategory, CollectionType } from '../types/aurelle';
 
 interface AurelleCollectionsProps {
@@ -12,6 +13,7 @@ export const AurelleCollections: React.FC<AurelleCollectionsProps> = ({
   onSelectCollection,
   selectedCollection,
 }) => {
+  const { t } = useTranslation();
   return (
     <section
       id="collections"
@@ -34,7 +36,7 @@ export const AurelleCollections: React.FC<AurelleCollectionsProps> = ({
               marginBottom: '8px',
             }}
           >
-            Curated Geographies
+            {t('collections.tag')}
           </div>
           <h2
             style={{
@@ -45,10 +47,10 @@ export const AurelleCollections: React.FC<AurelleCollectionsProps> = ({
               marginBottom: '16px',
             }}
           >
-            Explore Collections
+            {t('collections.title')}
           </h2>
           <p style={{ fontSize: '15px', color: 'var(--color-charcoal-muted)' }}>
-            Filter our global portfolio of architectural sanctuaries by topography and lifestyle.
+            {t('collections.subtitle')}
           </p>
         </div>
 
@@ -135,7 +137,7 @@ export const AurelleCollections: React.FC<AurelleCollectionsProps> = ({
                       marginBottom: '8px',
                     }}
                   >
-                    {cat.count} Private Sanctuaries
+                    {cat.count} {t('collections.privateSanctuaries')}
                   </div>
 
                   <h3
@@ -172,7 +174,7 @@ export const AurelleCollections: React.FC<AurelleCollectionsProps> = ({
                       color: 'var(--color-ivory)',
                     }}
                   >
-                    <span>{isSelected ? 'Active Filter ✓' : 'Explore Stays'}</span>
+                    <span>{isSelected ? t('collections.activeFilter') : t('collections.exploreStays')}</span>
                     <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>
                       arrow_forward
                     </span>

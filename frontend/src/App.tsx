@@ -7,10 +7,14 @@ import { AurelleCollections } from './components/AurelleCollections';
 import { AurelleExperience } from './components/AurelleExperience';
 import { AurelleDetailModal } from './components/AurelleDetailModal';
 import { AurelleFooter } from './components/AurelleFooter';
-import { FEATURED_STAYS, COLLECTIONS, TESTIMONIALS } from './data/aurelleData';
+import { getAurelleData } from './data/aurelleData';
+import { useTranslation } from 'react-i18next';
 import type { HotelStay, BookingSearchQuery, CollectionType } from './types/aurelle';
 
 export default function App() {
+  const { i18n, t } = useTranslation();
+  const { FEATURED_STAYS, COLLECTIONS, TESTIMONIALS } = getAurelleData(i18n.language);
+
   const [selectedStay, setSelectedStay] = useState<HotelStay | null>(null);
   const [selectedCollection, setSelectedCollection] = useState<CollectionType | null>(null);
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
