@@ -5,9 +5,10 @@ import { useAuth } from '../context/AuthContext';
 interface AurelleHeaderProps {
   onFindStayClick: () => void;
   onAuthClick?: () => void;
+  onAdminClick?: () => void;
 }
 
-export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, onAuthClick }) => {
+export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, onAuthClick, onAdminClick }) => {
   const { t, i18n } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -171,6 +172,27 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>language</span>
               {i18n.language === 'vi' ? 'EN' : 'VI'}
             </button>
+            {isAuthenticated && user?.email === 'admin@gmail.com' && (
+              <button
+                onClick={onAdminClick}
+                style={{
+                  background: 'var(--color-champagne)',
+                  border: 'none',
+                  padding: '6px 12px',
+                  borderRadius: '4px',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>admin_panel_settings</span>
+                Admin
+              </button>
+            )}
             <button
               onClick={onAuthClick}
               style={{
