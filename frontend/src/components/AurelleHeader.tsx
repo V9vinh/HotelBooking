@@ -1,0 +1,289 @@
+import React, { useState, useEffect } from 'react';
+
+interface AurelleHeaderProps {
+  onFindStayClick: () => void;
+}
+
+export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <>
+      <header
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+          transition: 'all 0.35s ease',
+          backgroundColor: isScrolled ? 'rgba(247, 243, 235, 0.95)' : 'rgba(247, 243, 235, 0.85)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: isScrolled ? '1px solid #E6DFD3' : '1px solid transparent',
+          boxShadow: isScrolled ? '0 8px 24px rgba(24, 53, 47, 0.05)' : 'none',
+        }}
+      >
+        <div
+          className="container-luxe"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '80px',
+          }}
+        >
+          {/* Brand Wordmark */}
+          <a
+            href="#"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: '22px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              color: 'var(--color-forest)',
+              textTransform: 'uppercase',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                backgroundColor: 'var(--color-champagne)',
+                borderRadius: '50%',
+                display: 'inline-block',
+              }}
+            />
+            AURELLE STAYS
+          </a>
+
+          {/* Desktop Navigation */}
+          <nav
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '36px',
+            }}
+            className="desktop-nav"
+          >
+            <button
+              onClick={() => scrollToSection('destinations')}
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--color-charcoal)',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
+            >
+              Destinations
+            </button>
+            <button
+              onClick={() => scrollToSection('collections')}
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--color-charcoal)',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
+            >
+              Collections
+            </button>
+            <button
+              onClick={() => scrollToSection('special-offers')}
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--color-charcoal)',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
+            >
+              Special Offers
+            </button>
+            <button
+              onClick={() => scrollToSection('experience')}
+              style={{
+                fontSize: '13px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--color-charcoal)',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-champagne)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-charcoal)')}
+            >
+              The Experience
+            </button>
+          </nav>
+
+          {/* Right Action */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <button
+              onClick={onFindStayClick}
+              className="btn-gold"
+              style={{
+                padding: '10px 22px',
+                fontSize: '13px',
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                calendar_today
+              </span>
+              Find a Stay
+            </button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="mobile-hamburger"
+              aria-label="Toggle navigation drawer"
+              style={{
+                display: 'none',
+                padding: '8px',
+                color: 'var(--color-forest)',
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>
+                {mobileMenuOpen ? 'close' : 'menu'}
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Drawer */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 49,
+            backgroundColor: 'rgba(24, 53, 47, 0.4)',
+            backdropFilter: 'blur(4px)',
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '80px',
+              left: 0,
+              right: 0,
+              backgroundColor: 'var(--color-ivory)',
+              borderBottom: '1px solid var(--color-border-hairline)',
+              padding: '28px 24px 36px',
+              boxShadow: 'var(--shadow-lg)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => scrollToSection('destinations')}
+              style={{
+                textAlign: 'left',
+                fontSize: '16px',
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--color-forest)',
+                padding: '8px 0',
+                borderBottom: '1px solid #ECE6DB',
+              }}
+            >
+              Destinations
+            </button>
+            <button
+              onClick={() => scrollToSection('collections')}
+              style={{
+                textAlign: 'left',
+                fontSize: '16px',
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--color-forest)',
+                padding: '8px 0',
+                borderBottom: '1px solid #ECE6DB',
+              }}
+            >
+              Collections
+            </button>
+            <button
+              onClick={() => scrollToSection('special-offers')}
+              style={{
+                textAlign: 'left',
+                fontSize: '16px',
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--color-forest)',
+                padding: '8px 0',
+                borderBottom: '1px solid #ECE6DB',
+              }}
+            >
+              Special Offers
+            </button>
+            <button
+              onClick={() => scrollToSection('experience')}
+              style={{
+                textAlign: 'left',
+                fontSize: '16px',
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--color-forest)',
+                padding: '8px 0',
+                borderBottom: '1px solid #ECE6DB',
+              }}
+            >
+              The Experience
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onFindStayClick();
+              }}
+              className="btn-gold"
+              style={{ marginTop: '12px', width: '100%' }}
+            >
+              Find a Stay
+            </button>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-hamburger {
+            display: flex !important;
+          }
+        }
+      `}</style>
+    </>
+  );
+};

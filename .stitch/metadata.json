@@ -1,0 +1,27 @@
+{
+  "name": "projects/7022934430088621984",
+  "projectId": "7022934430088621984",
+  "title": "Aurelle Stays - Luxury Hotel Booking",
+  "visibility": "PRIVATE",
+  "createTime": "2026-10-09T16:59:51.148834Z",
+  "updateTime": "2026-10-09T17:04:00.000000Z",
+  "projectType": "PROJECT_DESIGN",
+  "origin": "STITCH",
+  "deviceType": "DESKTOP",
+  "designTheme": {
+    "colorMode": "LIGHT",
+    "font": "PLAYFAIR_DISPLAY",
+    "roundness": "ROUND_SIX",
+    "customColor": "#18352F"
+  },
+  "screens": {
+    "index": {
+      "id": "9dd7be74fcda4e038c7175b0b46ebbb9",
+      "sourceScreen": "projects/7022934430088621984/screens/9dd7be74fcda4e038c7175b0b46ebbb9",
+      "title": "AURELLE STAYS - Luxury Hotel Booking",
+      "width": 2560,
+      "height": 9476,
+      "deviceType": "DESKTOP"
+    }
+  }
+}
