@@ -35,6 +35,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private ThanhToanRepository thanhToanRepository;
 
+    @Autowired
+    private DanhGiaRepository danhGiaRepository;
+
     @Override
     @Transactional
     public BookingResponse bookRoom(BookingRequest request) {
@@ -129,6 +132,8 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
 
+            boolean isReviewed = danhGiaRepository.existsByPhieuDatPhong_MaPhieu(p.getMaPhieu());
+
             result.add(new com.hotelbooking.backend.dto.BookingHistoryDTO(
                     p.getMaPhieu(),
                     p.getNgayDat(),
@@ -137,7 +142,8 @@ public class BookingServiceImpl implements BookingService {
                     p.getSoNguoi(),
                     p.getTongTien(),
                     p.getTrangThai().name(),
-                    roomInfos
+                    roomInfos,
+                    isReviewed
             ));
         }
 
@@ -179,5 +185,33 @@ public class BookingServiceImpl implements BookingService {
         phieuDatPhongRepository.save(phieu);
 
         return new BookingResponse(true, "Thanh toán thành công", maPhieu, LocalDateTime.now(), paymentRequest.getSoTien().doubleValue());
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse createReview(com.hotelbooking.backend.dto.ReviewRequestDTO request) {
+        PhieuDatPhong phieu = phieuDatPhongRepository.findById(request.getMaPhieu()).orElse(null);
+        if (phieu == null) {
+            return new BookingResponse(false, "Không tìm thấy phiếu đặt phòng.");
+        }
+
+        if (phieu.getTrangThai() != TrangThaiPhieuDat.DaCheckOut) {
+            return new BookingResponse(false, "Chỉ có thể đánh giá sau khi đã trả phòng.");
+        }
+
+        if (danhGiaRepository.existsByPhieuDatPhong_MaPhieu(request.getMaPhieu())) {
+            return new BookingResponse(false, "Phiếu đặt phòng này đã được đánh giá.");
+        }
+
+        DanhGia danhGia = new DanhGia();
+        danhGia.setKhachHang(phieu.getKhachHang());
+        danhGia.setPhieuDatPhong(phieu);
+        danhGia.setDiemSo(request.getDiemSo());
+        danhGia.setNoiDung(request.getNoiDung());
+        danhGia.setTrangThai(TrangThaiDanhGia.HienThi);
+        
+        danhGiaRepository.save(danhGia);
+
+        return new BookingResponse(true, "Đánh giá thành công.");
     }
 }

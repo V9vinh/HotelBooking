@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AurellePaymentModal } from './AurellePaymentModal';
+import { AurelleReviewModal } from './AurelleReviewModal';
 
 interface RoomInfo {
   soPhong: string;
@@ -16,6 +17,7 @@ interface BookingHistory {
   tongTien: number;
   trangThai: string;
   rooms: RoomInfo[];
+  isReviewed: boolean;
 }
 
 export function AurelleProfile({ onBack }: { onBack: () => void }) {
@@ -39,6 +41,7 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
   const [history, setHistory] = useState<BookingHistory[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [paymentBooking, setPaymentBooking] = useState<{ id: number; amount: number } | null>(null);
+  const [reviewBookingId, setReviewBookingId] = useState<number | null>(null);
 
   const fetchHistory = () => {
     if (!user) return;
@@ -287,6 +290,39 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
                       </button>
                     </div>
                   )}
+
+                  {booking.trangThai === 'DaCheckOut' && !booking.isReviewed && (
+                    <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => setReviewBookingId(booking.maPhieu)}
+                        style={{
+                          padding: '10px 20px',
+                          backgroundColor: 'var(--color-champagne)',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '6px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '14px'
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>star_rate</span>
+                        Viết đánh giá
+                      </button>
+                    </div>
+                  )}
+
+                  {booking.trangThai === 'DaCheckOut' && booking.isReviewed && (
+                    <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                      <span style={{ fontSize: '13px', color: 'var(--color-forest)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>check_circle</span>
+                        Đã đánh giá
+                      </span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -302,6 +338,17 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
           onSuccess={() => {
             setPaymentBooking(null);
             fetchHistory(); // Refresh history
+          }}
+        />
+      )}
+
+      {reviewBookingId && (
+        <AurelleReviewModal
+          bookingId={reviewBookingId}
+          onClose={() => setReviewBookingId(null)}
+          onSuccess={() => {
+            setReviewBookingId(null);
+            fetchHistory();
           }}
         />
       )}

@@ -41,4 +41,14 @@ public class BookingController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @PostMapping("/reviews")
+    public ResponseEntity<BookingResponse> createReview(@RequestBody com.hotelbooking.backend.dto.ReviewRequestDTO request) {
+        BookingResponse response = bookingService.createReview(request);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
