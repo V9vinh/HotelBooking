@@ -104,4 +104,36 @@ public class BookingServiceImpl implements BookingService {
 
         return new BookingResponse(true, "Đặt phòng thành công", phieu.getMaPhieu(), LocalDateTime.now(), tongTien.doubleValue());
     }
+
+    @Override
+    public java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO> getBookingHistory(Integer maKhachHang) {
+        java.util.List<PhieuDatPhong> phieus = phieuDatPhongRepository.findByKhachHang_MaKHOrderByNgayDatDesc(maKhachHang);
+        java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO> result = new java.util.ArrayList<>();
+
+        for (PhieuDatPhong p : phieus) {
+            java.util.List<ChiTietDatPhong> chiTiets = chiTietDatPhongRepository.findByPhieuDatPhong_MaPhieu(p.getMaPhieu());
+            java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO.RoomInfoDTO> roomInfos = new java.util.ArrayList<>();
+            for (ChiTietDatPhong c : chiTiets) {
+                if (c.getPhong() != null) {
+                    roomInfos.add(new com.hotelbooking.backend.dto.BookingHistoryDTO.RoomInfoDTO(
+                            c.getPhong().getSoPhong(),
+                            c.getPhong().getLoaiPhong() != null ? c.getPhong().getLoaiPhong().getTenLoaiPhong() : "N/A"
+                    ));
+                }
+            }
+
+            result.add(new com.hotelbooking.backend.dto.BookingHistoryDTO(
+                    p.getMaPhieu(),
+                    p.getNgayDat(),
+                    p.getNgayNhan(),
+                    p.getNgayTra(),
+                    p.getSoNguoi(),
+                    p.getTongTien(),
+                    p.getTrangThai().name(),
+                    roomInfos
+            ));
+        }
+
+        return result;
+    }
 }
