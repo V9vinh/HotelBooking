@@ -14,6 +14,7 @@ public class BookingHistoryDTO {
     private BigDecimal tongTien;
     private String trangThai;
     private List<RoomInfoDTO> rooms;
+    private boolean isReviewed;
 
     public static class RoomInfoDTO {
         private String soPhong;
@@ -32,7 +33,7 @@ public class BookingHistoryDTO {
 
     public BookingHistoryDTO() {}
 
-    public BookingHistoryDTO(Integer maPhieu, LocalDateTime ngayDat, LocalDate ngayNhan, LocalDate ngayTra, Integer soNguoi, BigDecimal tongTien, String trangThai, List<RoomInfoDTO> rooms) {
+    public BookingHistoryDTO(Integer maPhieu, LocalDateTime ngayDat, LocalDate ngayNhan, LocalDate ngayTra, Integer soNguoi, BigDecimal tongTien, String trangThai, List<RoomInfoDTO> rooms, boolean isReviewed) {
         this.maPhieu = maPhieu;
         this.ngayDat = ngayDat;
         this.ngayNhan = ngayNhan;
@@ -41,6 +42,7 @@ public class BookingHistoryDTO {
         this.tongTien = tongTien;
         this.trangThai = trangThai;
         this.rooms = rooms;
+        this.isReviewed = isReviewed;
     }
 
     // Getters and Setters
@@ -60,4 +62,6 @@ public class BookingHistoryDTO {
     public void setTrangThai(String trangThai) { this.trangThai = trangThai; }
     public List<RoomInfoDTO> getRooms() { return rooms; }
     public void setRooms(List<RoomInfoDTO> rooms) { this.rooms = rooms; }
+    public boolean isReviewed() { return isReviewed; }
+    public void setReviewed(boolean reviewed) { isReviewed = reviewed; }
 }
