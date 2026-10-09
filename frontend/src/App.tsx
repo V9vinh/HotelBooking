@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import type { HotelStay, BookingSearchQuery, CollectionType } from './types/aurelle';
 import { AurelleAuthModal } from './components/AurelleAuthModal';
 import { AurelleProfile } from './components/AurelleProfile';
+import { AurelleAdminBookings } from './components/AurelleAdminBookings';
 import { useAuth } from './context/AuthContext';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
 
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -169,14 +171,21 @@ export default function App() {
         onFindStayClick={scrollToBookingBar} 
         onAuthClick={() => {
           if (isAuthenticated) {
+            setShowAdmin(false);
             setShowProfile(true);
           } else {
             setShowAuthModal(true);
           }
         }}
+        onAdminClick={() => {
+          setShowProfile(false);
+          setShowAdmin(true);
+        }}
       />
 
-      {showProfile ? (
+      {showAdmin ? (
+        <AurelleAdminBookings />
+      ) : showProfile ? (
         <AurelleProfile onBack={() => setShowProfile(false)} />
       ) : (
         <>

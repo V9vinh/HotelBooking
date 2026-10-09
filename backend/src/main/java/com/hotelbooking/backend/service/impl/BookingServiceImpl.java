@@ -214,4 +214,41 @@ public class BookingServiceImpl implements BookingService {
 
         return new BookingResponse(true, "Đánh giá thành công.");
     }
+
+    @Override
+    public java.util.List<com.hotelbooking.backend.dto.AdminBookingDTO> getAllBookings() {
+        java.util.List<PhieuDatPhong> phieus = phieuDatPhongRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "ngayDat"));
+        java.util.List<com.hotelbooking.backend.dto.AdminBookingDTO> result = new java.util.ArrayList<>();
+        for (PhieuDatPhong p : phieus) {
+            result.add(new com.hotelbooking.backend.dto.AdminBookingDTO(
+                p.getMaPhieu(),
+                p.getKhachHang() != null ? p.getKhachHang().getHoTen() : "Khách Lẻ",
+                p.getKhachHang() != null ? p.getKhachHang().getSdt() : "",
+                p.getNgayDat(),
+                p.getNgayNhan(),
+                p.getNgayTra(),
+                p.getSoNguoi(),
+                p.getTongTien(),
+                p.getTrangThai().name()
+            ));
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse updateBookingStatus(Integer maPhieu, String newStatus) {
+        PhieuDatPhong phieu = phieuDatPhongRepository.findById(maPhieu).orElse(null);
+        if (phieu == null) {
+            return new BookingResponse(false, "Không tìm thấy phiếu đặt phòng.");
+        }
+        try {
+            TrangThaiPhieuDat status = TrangThaiPhieuDat.valueOf(newStatus);
+            phieu.setTrangThai(status);
+            phieuDatPhongRepository.save(phieu);
+            return new BookingResponse(true, "Cập nhật trạng thái thành công.");
+        } catch (IllegalArgumentException e) {
+            return new BookingResponse(false, "Trạng thái không hợp lệ.");
+        }
+    }
 }

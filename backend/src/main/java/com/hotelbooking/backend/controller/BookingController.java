@@ -51,4 +51,22 @@ public class BookingController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @GetMapping("/admin/all")
+    public ResponseEntity<java.util.List<com.hotelbooking.backend.dto.AdminBookingDTO>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+
+    @PutMapping("/admin/{maPhieu}/status")
+    public ResponseEntity<BookingResponse> updateBookingStatus(
+            @PathVariable Integer maPhieu,
+            @RequestBody java.util.Map<String, String> body) {
+        String newStatus = body.get("trangThai");
+        BookingResponse response = bookingService.updateBookingStatus(maPhieu, newStatus);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

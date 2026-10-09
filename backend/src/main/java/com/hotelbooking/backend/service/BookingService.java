@@ -7,10 +7,13 @@ import java.util.List;
 import com.hotelbooking.backend.dto.BookingHistoryDTO;
 import com.hotelbooking.backend.dto.PaymentRequestDTO;
 import com.hotelbooking.backend.dto.ReviewRequestDTO;
+import com.hotelbooking.backend.dto.AdminBookingDTO;
 
 public interface BookingService {
     BookingResponse bookRoom(BookingRequest request);
     List<BookingHistoryDTO> getBookingHistory(Integer maKhachHang);
     BookingResponse payBooking(Integer maPhieu, PaymentRequestDTO paymentRequest);
     BookingResponse createReview(ReviewRequestDTO request);
+    List<AdminBookingDTO> getAllBookings();
+    BookingResponse updateBookingStatus(Integer maPhieu, String newStatus);
 }
