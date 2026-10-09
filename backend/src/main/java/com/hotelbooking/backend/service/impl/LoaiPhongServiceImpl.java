@@ -35,4 +35,28 @@ public class LoaiPhongServiceImpl implements LoaiPhongService {
             return loaiPhongRepository.findBySucChuaGreaterThanEqual(requiredGuests);
         }
     }
+
+    @Override
+    public LoaiPhong createLoaiPhong(LoaiPhong loaiPhong) {
+        return loaiPhongRepository.save(loaiPhong);
+    }
+
+    @Override
+    public LoaiPhong updateLoaiPhong(Integer id, LoaiPhong loaiPhong) {
+        LoaiPhong existing = loaiPhongRepository.findById(id).orElse(null);
+        if (existing != null) {
+            existing.setTenLoaiPhong(loaiPhong.getTenLoaiPhong());
+            existing.setMoTa(loaiPhong.getMoTa());
+            existing.setSucChua(loaiPhong.getSucChua());
+            existing.setGiaCoBan(loaiPhong.getGiaCoBan());
+            existing.setTienNghi(loaiPhong.getTienNghi());
+            return loaiPhongRepository.save(existing);
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteLoaiPhong(Integer id) {
+        loaiPhongRepository.deleteById(id);
+    }
 }

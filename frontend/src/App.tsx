@@ -13,6 +13,7 @@ import type { HotelStay, BookingSearchQuery, CollectionType } from './types/aure
 import { AurelleAuthModal } from './components/AurelleAuthModal';
 import { AurelleProfile } from './components/AurelleProfile';
 import { AurelleAdminBookings } from './components/AurelleAdminBookings';
+import { AurelleAdminRooms } from './components/AurelleAdminRooms';
 import { useAuth } from './context/AuthContext';
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [adminTab, setAdminTab] = useState<'bookings' | 'rooms'>('bookings');
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -184,7 +186,39 @@ export default function App() {
       />
 
       {showAdmin ? (
-        <AurelleAdminBookings />
+        <div style={{ backgroundColor: '#f9fafb', minHeight: '100vh', paddingTop: '20px' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto 20px', padding: '0 20px', display: 'flex', gap: '16px' }}>
+            <button
+              onClick={() => setAdminTab('bookings')}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: adminTab === 'bookings' ? 'var(--color-forest)' : '#fff',
+                color: adminTab === 'bookings' ? '#fff' : 'var(--color-forest)',
+                border: '1px solid var(--color-forest)',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontWeight: 600
+              }}
+            >
+              Quản lý Đặt phòng
+            </button>
+            <button
+              onClick={() => setAdminTab('rooms')}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: adminTab === 'rooms' ? 'var(--color-forest)' : '#fff',
+                color: adminTab === 'rooms' ? '#fff' : 'var(--color-forest)',
+                border: '1px solid var(--color-forest)',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontWeight: 600
+              }}
+            >
+              Quản lý Loại phòng
+            </button>
+          </div>
+          {adminTab === 'bookings' ? <AurelleAdminBookings /> : <AurelleAdminRooms />}
+        </div>
       ) : showProfile ? (
         <AurelleProfile onBack={() => setShowProfile(false)} />
       ) : (
