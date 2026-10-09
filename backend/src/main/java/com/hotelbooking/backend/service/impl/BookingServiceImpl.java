@@ -73,6 +73,30 @@ public class BookingServiceImpl implements BookingService {
                     chiTietDatPhongRepository.save(chiTiet);
                 }
             }
+        } else if (request.getMaLoaiPhong() != null) {
+            java.util.List<Phong> availableRooms = phongRepository.findAvailableRooms(request.getMaLoaiPhong(), request.getNgayNhan(), request.getNgayTra());
+            int numRequested = request.getSoLuongPhong() != null ? request.getSoLuongPhong() : 1;
+            
+            if (availableRooms.size() < numRequested) {
+                return new BookingResponse(false, "Không đủ phòng trống cho loại phòng này trong thời gian đã chọn.");
+            }
+            
+            for (int i = 0; i < numRequested; i++) {
+                Phong phong = availableRooms.get(i);
+                ChiTietDatPhong chiTiet = new ChiTietDatPhong();
+                chiTiet.setPhieuDatPhong(phieu);
+                chiTiet.setPhong(phong);
+                chiTiet.setDonGia(phong.getLoaiPhong().getGiaCoBan());
+                chiTiet.setSoDem((int) soDem);
+                
+                BigDecimal thanhTien = phong.getLoaiPhong().getGiaCoBan().multiply(new BigDecimal(soDem));
+                chiTiet.setThanhTien(thanhTien);
+                
+                tongTien = tongTien.add(thanhTien);
+                chiTietDatPhongRepository.save(chiTiet);
+            }
+        } else {
+            return new BookingResponse(false, "Vui lòng chọn phòng hoặc loại phòng.");
         }
 
         phieu.setTongTien(tongTien);

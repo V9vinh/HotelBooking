@@ -10,7 +10,9 @@ public class BookingRequest {
     private Integer soNguoi;
     private String maCodeKhuyenMai; // Optional
     private String ghiChu;
-    private List<Integer> danhSachMaPhong;
+    private Integer maLoaiPhong;
+    private Integer soLuongPhong = 1;
+    private List<Integer> danhSachMaPhong; // Legacy or explicit room selection
 
     public Integer getMaKhachHang() {
         return maKhachHang;
@@ -66,5 +68,21 @@ public class BookingRequest {
 
     public void setDanhSachMaPhong(List<Integer> danhSachMaPhong) {
         this.danhSachMaPhong = danhSachMaPhong;
+    }
+
+    public Integer getMaLoaiPhong() {
+        return maLoaiPhong;
+    }
+
+    public void setMaLoaiPhong(Integer maLoaiPhong) {
+        this.maLoaiPhong = maLoaiPhong;
+    }
+
+    public Integer getSoLuongPhong() {
+        return soLuongPhong;
+    }
+
+    public void setSoLuongPhong(Integer soLuongPhong) {
+        this.soLuongPhong = soLuongPhong;
     }
 }
