@@ -3,33 +3,33 @@ import type { HotelStay, CollectionCategory, Testimonial } from '../types/aurell
 const FEATURED_STAYS_EN: HotelStay[] = [
   {
     id: 'stay-1',
-    title: 'Villa Sole di Amalfi',
-    subtitle: 'Cliffside Terraces & Mediterranean Panorama',
-    location: 'Amalfi Coast',
-    country: 'Italy',
+    title: 'InterContinental Danang Sun Peninsula',
+    subtitle: 'Luxury Resort & Spa in Monkey Mountain',
+    location: 'Da Nang',
+    country: 'Vietnam',
     collection: 'Beach Escapes',
-    pricePerNight: 890,
+    pricePerNight: 8500000,
     rating: 4.98,
     reviewsCount: 38,
-    imageUrl: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'
+      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 6, bedrooms: 3, bathrooms: 4, areaSqFt: 3800, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Perched delicately on the limestone cliffs of Positano, Villa Sole merges Italian neoclassical architecture with sun-bleached travertine terraces and an infinity pool that blurs into the Tyrrhenian horizon.',
-    amenities: ['Cliffside Infinity Pool', '24/7 Dedicated Butler', 'Private Wine Cellar', 'Yacht Tender Charter', 'Helipad Access', 'Michelin-Starred Chef Service'],
-    highlights: ['Unobstructed Amalfi sunsets', 'Direct sea path with private boat mooring', 'Handmade Vietri ceramic finishes']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 750, hasInfinityPool: true, hasPrivateButler: true },
+    description: 'Designed by Bill Bensley, this multi-award winning resort cascades down the jungle-clad Son Tra Peninsula, featuring private beach access and exquisite dining experiences like La Maison 1888.',
+    amenities: ['Private Beach', 'Infinity Pool', 'La Maison 1888', 'HARNN Heritage Spa', 'Cable Car (Nam Tram)', 'Kids Club'],
+    highlights: ['Breathtaking ocean views', 'Unique architecture blending Vietnamese myth and luxury', 'Michelin-starred chef dining']
   },
   {
     id: 'stay-2',
-    title: 'Kyoto Zen Sanctuary',
-    subtitle: 'Hinoki Cedar Pavilion & Moss Garden',
-    location: 'Arashiyama, Kyoto',
-    country: 'Japan',
-    collection: 'Mountain Retreats',
-    pricePerNight: 760,
+    title: 'JW Marriott Phu Quoc Emerald Bay',
+    subtitle: 'Lamarck University Themed Resort',
+    location: 'Phu Quoc',
+    country: 'Vietnam',
+    collection: 'Beach Escapes',
+    pricePerNight: 7200000,
     rating: 4.96,
     reviewsCount: 42,
     imageUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
@@ -38,31 +38,31 @@ const FEATURED_STAYS_EN: HotelStay[] = [
       'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 4, bedrooms: 2, bathrooms: 3, areaSqFt: 2950, hasInfinityPool: false, hasPrivateButler: true },
-    description: 'An architectural tribute to timeless Sukiya-zukuri design. Savor hot spring waters infused with yuzu, meditative tea ceremonies by masters of the Urasenke school, and bamboo grove whispers.',
-    amenities: ['Natural Mineral Onsen', 'Tea Pavilion & Garden', 'Kaiseki Private Dining', 'Shoji Artisan Screens', 'Bicycle Escort Guide', 'Matsumoto Linen Bedding'],
-    highlights: ['Centuries-old protected private moss garden', 'Forest acoustic tranquility', 'Bespoke Kyoto artisan tours']
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 1200, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Step back in time to the mythical Lamarck University. Located on the pristine Khem Beach, this whimsical resort features uniquely themed departments, a seashell-shaped pool, and unparalleled luxury.',
+    amenities: ['Khem Beach Access', 'Chanterelle Spa', 'Shell Pool', 'Chemistry Bar', 'French Bakery', 'Water Sports'],
+    highlights: ['Unique university-themed architecture', 'Crystal clear waters of Emerald Bay', 'Exceptional Alice in Wonderland inspired spa']
   },
   {
     id: 'stay-3',
-    title: 'Azure Cove Hideaway',
-    subtitle: 'Private Coral Bay & Barefoot Solitude',
-    location: 'St. Barts',
-    country: 'French West Indies',
-    collection: 'Beach Escapes',
-    pricePerNight: 1250,
+    title: 'Topas Ecolodge Sapa',
+    subtitle: 'Mountain Retreat Above the Clouds',
+    location: 'Sapa',
+    country: 'Vietnam',
+    collection: 'Mountain Retreats',
+    pricePerNight: 5500000,
     rating: 4.99,
     reviewsCount: 29,
-    imageUrl: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 8, bedrooms: 4, bathrooms: 5, areaSqFt: 5200, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Set upon powdery white sands, Azure Cove offers open-air colonial pavilions, hand-carved mahogany ceilings, and an Olympic-length saltwater pool overlooking turquoise Caribbean reefs.',
-    amenities: ['Private Beachfront Strand', 'Catamaran Day Cruiser', 'Open-Air Cinema', 'Sommelier Cellar', 'Wellness Spa Cabana', 'Paddle & Dive Gear'],
-    highlights: ['Gourmet fresh catch delivered daily', 'Secluded coral cove without public access', 'Starlit beachfront dining']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 450, hasInfinityPool: true, hasPrivateButler: false },
+    description: 'Situated on a beautiful hilltop deep in the mountains of Hoang Lien National Park, Topas Ecolodge boasts stunning infinity pools overlooking terraced rice fields and offers a true escape from modern life.',
+    amenities: ['Heated Infinity Pool', 'Rice Terrace Views', 'Red Dao Herbal Bath', 'Stilt House Restaurant', 'Mountain Biking', 'Trekking Tours'],
+    highlights: ['Voted top eco-lodge by National Geographic', 'Stunning panoramic mountain and valley views', 'Sustainable and eco-friendly practices']
   },
   {
     id: 'stay-4',
@@ -102,33 +102,33 @@ const TESTIMONIALS_EN: Testimonial[] = [
 const FEATURED_STAYS_VI: HotelStay[] = [
   {
     id: 'stay-1',
-    title: 'Biệt thự Sole di Amalfi',
-    subtitle: 'Sân thượng bên vách đá & Tầm nhìn Địa Trung Hải',
-    location: 'Bờ biển Amalfi',
-    country: 'Ý',
+    title: 'InterContinental Danang Sun Peninsula',
+    subtitle: 'Khu nghỉ dưỡng & Spa sang trọng trên núi Sơn Trà',
+    location: 'Đà Nẵng',
+    country: 'Việt Nam',
     collection: 'Beach Escapes',
-    pricePerNight: 22250000,
+    pricePerNight: 8500000,
     rating: 4.98,
     reviewsCount: 38,
-    imageUrl: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'
+      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 6, bedrooms: 3, bathrooms: 4, areaSqFt: 3800, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Nằm chênh vênh trên vách đá vôi của Positano, Villa Sole là sự kết hợp hoàn hảo giữa kiến trúc tân cổ điển Ý với những sân thượng bằng đá travertine ngập tràn ánh nắng và một hồ bơi vô cực hòa mình vào chân trời biển Tyrrhenian.',
-    amenities: ['Hồ bơi vô cực bên vách đá', 'Quản gia riêng 24/7', 'Hầm rượu riêng', 'Thuê du thuyền', 'Sân đỗ trực thăng', 'Đầu bếp Michelin'],
-    highlights: ['Ngắm hoàng hôn Amalfi trọn vẹn', 'Đường ra biển với bến thuyền riêng', 'Nội thất gốm Vietri thủ công']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 750, hasInfinityPool: true, hasPrivateButler: true },
+    description: 'Được thiết kế bởi Bill Bensley, khu nghỉ dưỡng từng đoạt nhiều giải thưởng này nằm thoai thoải trên Bán đảo Sơn Trà ngợp bóng cây, với bãi biển riêng và trải nghiệm ẩm thực tinh tế như nhà hàng La Maison 1888.',
+    amenities: ['Bãi biển riêng', 'Hồ bơi vô cực', 'Nhà hàng La Maison 1888', 'HARNN Heritage Spa', 'Tàu hỏa leo núi Nam Tram', 'Câu lạc bộ trẻ em'],
+    highlights: ['Tầm nhìn ngoạn mục ra đại dương', 'Kiến trúc độc đáo kết hợp huyền thoại Việt Nam và sự sang trọng', 'Trải nghiệm ăn tối với đầu bếp sao Michelin']
   },
   {
     id: 'stay-2',
-    title: 'Nơi trú ẩn Kyoto Zen',
-    subtitle: 'Đình Gỗ Hinoki & Vườn Rêu',
-    location: 'Arashiyama, Kyoto',
-    country: 'Nhật Bản',
-    collection: 'Mountain Retreats',
-    pricePerNight: 19000000,
+    title: 'JW Marriott Phu Quoc Emerald Bay',
+    subtitle: 'Khu nghỉ dưỡng chủ đề Đại học Lamarck',
+    location: 'Phú Quốc',
+    country: 'Việt Nam',
+    collection: 'Beach Escapes',
+    pricePerNight: 7200000,
     rating: 4.96,
     reviewsCount: 42,
     imageUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
@@ -137,31 +137,31 @@ const FEATURED_STAYS_VI: HotelStay[] = [
       'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 4, bedrooms: 2, bathrooms: 3, areaSqFt: 2950, hasInfinityPool: false, hasPrivateButler: true },
-    description: 'Một tác phẩm kiến trúc tôn vinh thiết kế Sukiya-zukuri vượt thời gian. Thưởng thức nước suối nóng pha hương yuzu, các buổi trà đạo thiền định bởi các nghệ nhân trường phái Urasenke và lắng nghe tiếng xào xạc của rặng tre.',
-    amenities: ['Onsen khoáng thiên nhiên', 'Đình trà đạo & Sân vườn', 'Bữa tối riêng Kaiseki', 'Cửa trượt Shoji thủ công', 'Hướng dẫn viên xe đạp', 'Bộ đồ giường Matsumoto'],
-    highlights: ['Vườn rêu tư nhân hàng thế kỷ', 'Không gian tĩnh lặng trong rừng', 'Tour nghệ nhân Kyoto riêng']
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 1200, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Trở về quá khứ với trường đại học Lamarck huyền thoại. Tọa lạc trên bãi Khem tuyệt đẹp, khu nghỉ dưỡng độc đáo này mang chủ đề các khoa học kỳ thú, hồ bơi hình con sò và sự xa hoa không gì sánh bằng.',
+    amenities: ['Bãi biển Khem', 'Chanterelle Spa', 'Hồ bơi hình con sò', 'Quầy bar Hóa học', 'Tiệm bánh Pháp', 'Thể thao dưới nước'],
+    highlights: ['Kiến trúc chủ đề đại học độc đáo', 'Làn nước trong vắt của vịnh Ngọc lục bảo', 'Spa lấy cảm hứng từ Alice in Wonderland']
   },
   {
     id: 'stay-3',
-    title: 'Chốn ẩn mình Azure Cove',
-    subtitle: 'Vịnh San hô Riêng tư & Bãi cát trắn',
-    location: 'St. Barts',
-    country: 'Tây Ấn Pháp',
-    collection: 'Beach Escapes',
-    pricePerNight: 31250000,
+    title: 'Topas Ecolodge Sapa',
+    subtitle: 'Nơi ẩn mình trên những tầng mây',
+    location: 'Sapa',
+    country: 'Việt Nam',
+    collection: 'Mountain Retreats',
+    pricePerNight: 5500000,
     rating: 4.99,
     reviewsCount: 29,
-    imageUrl: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
     gallery: [
-      'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
     ],
-    specs: { guests: 8, bedrooms: 4, bathrooms: 5, areaSqFt: 5200, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Tọa lạc trên bãi cát trắng mịn, Azure Cove sở hữu các đình nghỉ dưỡng kiến trúc thuộc địa không gian mở, trần gỗ gụ chạm khắc tay và hồ bơi nước mặn chuẩn Olympic nhìn ra rạn san hô xanh ngọc của vùng Caribbean.',
-    amenities: ['Bãi biển riêng tư', 'Du thuyền Catamaran', 'Rạp chiếu phim ngoài trời', 'Hầm rượu riêng', 'Spa ngoài trời', 'Dụng cụ lặn & chèo thuyền'],
-    highlights: ['Hải sản tươi sống phục vụ mỗi ngày', 'Vịnh san hô hẻo lánh', 'Ăn tối ngắm sao trên bãi biển']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 450, hasInfinityPool: true, hasPrivateButler: false },
+    description: 'Nằm trên một đỉnh đồi tuyệt đẹp sâu trong dãy núi của Vườn quốc gia Hoàng Liên, Topas Ecolodge tự hào với những hồ bơi vô cực ngắm nhìn những thửa ruộng bậc thang, mang đến một lối thoát thực sự khỏi nhịp sống hiện đại.',
+    amenities: ['Hồ bơi vô cực nước ấm', 'Tầm nhìn ruộng bậc thang', 'Tắm lá thuốc người Dao Đỏ', 'Nhà hàng nhà sàn', 'Đạp xe leo núi', 'Tour đi bộ leo núi'],
+    highlights: ['Được National Geographic bình chọn là khu nghỉ dưỡng sinh thái hàng đầu', 'Tầm nhìn toàn cảnh thung lũng ngoạn mục', 'Thực hành bền vững và thân thiện với môi trường']
   },
   {
     id: 'stay-4',

@@ -85,6 +85,19 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
       return;
     }
     
+    if (nights <= 0) {
+      alert('Số đêm phải lớn hơn 0.');
+      return;
+    }
+
+    const checkInDate = new Date(checkIn);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (checkInDate < today) {
+      alert('Ngày nhận phòng không hợp lệ.');
+      return;
+    }
+    
     setLoadingBooking(true);
     try {
       const maLoaiPhong = parseInt(stay.id.replace('room-', ''));

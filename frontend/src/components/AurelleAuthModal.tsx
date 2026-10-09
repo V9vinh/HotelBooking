@@ -77,10 +77,11 @@ export function AurelleAuthModal({ onClose }: { onClose: () => void }) {
           <input
             name="matKhau"
             type="password"
-            placeholder="Mật khẩu"
+            placeholder="Mật khẩu (ít nhất 6 ký tự)"
             value={formData.matKhau}
             onChange={handleChange}
             required
+            minLength={6}
             style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}
           />
 
