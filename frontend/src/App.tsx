@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AurelleHeader } from './components/AurelleHeader';
 import { AurelleHero } from './components/AurelleHero';
 import { AurelleBookingBar } from './components/AurelleBookingBar';
@@ -20,9 +20,48 @@ export default function App() {
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchFeedback, setSearchFeedback] = useState<string | null>(null);
+  const [dbStays, setDbStays] = useState<HotelStay[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8088/api/rooms/types')
+      .then(res => res.json())
+      .then((data: any[]) => {
+        const { FEATURED_STAYS: fallbackStays } = getAurelleData(i18n.language);
+        const mappedStays: HotelStay[] = data.map((room, index) => {
+          const fallback = fallbackStays[index % fallbackStays.length];
+          return {
+            id: `room-${room.maLoaiPhong}`,
+            title: room.tenLoaiPhong,
+            subtitle: fallback.subtitle,
+            location: fallback.location, // fallback since DB doesn't have it
+            country: fallback.country,
+            pricePerNight: i18n.language.startsWith('vi') ? room.giaCoBan * 25000 : room.giaCoBan,
+            rating: fallback.rating,
+            reviewsCount: fallback.reviewsCount,
+            imageUrl: fallback.imageUrl,
+            gallery: fallback.gallery,
+            description: room.moTa,
+            collection: fallback.collection,
+            amenities: room.tienNghi.split(',').map((s: string) => s.trim()),
+            highlights: fallback.highlights,
+            specs: {
+              guests: room.sucChua,
+              bedrooms: Math.max(1, Math.floor(room.sucChua / 2)),
+              bathrooms: Math.max(1, Math.floor(room.sucChua / 2)),
+              areaSqFt: 1000 + (room.sucChua * 200),
+              hasInfinityPool: fallback.specs.hasInfinityPool,
+              hasPrivateButler: fallback.specs.hasPrivateButler,
+            }
+          };
+        });
+        setDbStays(mappedStays);
+      })
+      .catch(err => console.error("Failed to load rooms", err));
+  }, [i18n.language]);
 
   // Filter stays based on collection category and search destination
-  const displayedStays = FEATURED_STAYS.filter((stay) => {
+  const baseStays = dbStays.length > 0 ? dbStays : FEATURED_STAYS;
+  const displayedStays = baseStays.filter((stay) => {
     if (selectedCollection && stay.collection !== selectedCollection) {
       return false;
     }

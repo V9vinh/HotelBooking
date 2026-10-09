@@ -13,7 +13,10 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
   const [nights, setNights] = useState(3);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [promoCode, setPromoCode] = useState('');
-  const [extraServices, setExtraServices] = useState<string[]>([]);
+  const [extraServices, setExtraServices] = useState<number[]>([]);
+  const [dbServices, setDbServices] = useState<any[]>([]);
+  const [promoDiscount, setPromoDiscount] = useState<number>(0);
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -25,15 +28,46 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
       }
     };
     window.addEventListener('keydown', handleKeyDown);
+
+    // Fetch services
+    fetch('http://localhost:8088/api/services')
+      .then(res => res.json())
+      .then(data => setDbServices(data))
+      .catch(console.error);
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [stay, onClose]);
 
   if (!stay) return null;
 
   const serviceMultiplier = i18n.language.startsWith('vi') ? 25000 : 1;
-  const extraCost = extraServices.length * (150 * serviceMultiplier);
-  const discount = promoCode.toLowerCase() === 'vip' ? (50 * serviceMultiplier) : 0;
+  const extraCost = extraServices.reduce((total, id) => {
+    const s = dbServices.find(serv => serv.maDichVu === id);
+    return total + (s ? s.gia : 0);
+  }, 0) * serviceMultiplier;
+  const discount = promoDiscount * serviceMultiplier;
   const totalEstimate = stay.pricePerNight * nights + extraCost - discount;
+
+  const handleApplyPromo = () => {
+    if (!promoCode) return;
+    fetch(`http://localhost:8088/api/promotions/check?code=${promoCode}`)
+      .then(res => {
+        if (!res.ok) {
+          setIsPromoApplied(false);
+          setPromoDiscount(0);
+          alert(t('modal.invalidPromo', 'Invalid or expired promo code.'));
+          return null;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (data) {
+          setIsPromoApplied(true);
+          setPromoDiscount(data.soTienGiam);
+        }
+      })
+      .catch(console.error);
+  };
 
   const formatPrice = (amount: number) => {
     if (i18n.language.startsWith('vi')) {
@@ -355,20 +389,19 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                   {t('modal.extraServices')}
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <label style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                    <input type="checkbox" checked={extraServices.includes('airport')} onChange={(e) => {
-                      if (e.target.checked) setExtraServices([...extraServices, 'airport']);
-                      else setExtraServices(extraServices.filter(s => s !== 'airport'));
-                    }} />
-                    {t('modal.airportTransfer')} (+{formatPrice(150 * serviceMultiplier)})
-                  </label>
-                  <label style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                    <input type="checkbox" checked={extraServices.includes('spa')} onChange={(e) => {
-                      if (e.target.checked) setExtraServices([...extraServices, 'spa']);
-                      else setExtraServices(extraServices.filter(s => s !== 'spa'));
-                    }} />
-                    {t('modal.spaPackage')} (+{formatPrice(150 * serviceMultiplier)})
-                  </label>
+                  {dbServices.map(service => (
+                    <label key={service.maDichVu} style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <input 
+                        type="checkbox" 
+                        checked={extraServices.includes(service.maDichVu)} 
+                        onChange={(e) => {
+                          if (e.target.checked) setExtraServices([...extraServices, service.maDichVu]);
+                          else setExtraServices(extraServices.filter(id => id !== service.maDichVu));
+                        }} 
+                      />
+                      {service.tenDichVu} (+{formatPrice(service.gia * serviceMultiplier)})
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -376,19 +409,41 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-charcoal-muted)', marginBottom: '8px', display: 'block' }}>
                   {t('modal.promoCode')}
                 </label>
-                <input
-                  type="text"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="e.g. VIP"
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid var(--color-border-hairline)',
-                    borderRadius: '4px',
-                    fontSize: '13px'
-                  }}
-                />
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="e.g. VIP"
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      border: '1px solid var(--color-border-hairline)',
+                      borderRadius: '4px',
+                      fontSize: '13px'
+                    }}
+                  />
+                  <button 
+                    onClick={handleApplyPromo}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: 'var(--color-charcoal)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: 600
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+                {isPromoApplied && (
+                  <div style={{ marginTop: '8px', fontSize: '12px', color: '#065F46' }}>
+                    ✓ Promo applied! -{formatPrice(discount)}
+                  </div>
+                )}
               </div>
             </div>
 
