@@ -5,6 +5,7 @@ import com.hotelbooking.backend.dto.BookingResponse;
 import com.hotelbooking.backend.entity.*;
 import com.hotelbooking.backend.repository.*;
 import com.hotelbooking.backend.service.BookingService;
+import com.hotelbooking.backend.dto.PaymentRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private PhongRepository phongRepository;
+
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
+
+    @Autowired
+    private ThanhToanRepository thanhToanRepository;
 
     @Override
     @Transactional
@@ -135,5 +142,42 @@ public class BookingServiceImpl implements BookingService {
         }
 
         return result;
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse payBooking(Integer maPhieu, PaymentRequestDTO paymentRequest) {
+        PhieuDatPhong phieu = phieuDatPhongRepository.findById(maPhieu).orElse(null);
+        if (phieu == null) {
+            return new BookingResponse(false, "Không tìm thấy phiếu đặt phòng.");
+        }
+
+        HoaDon hoaDon = hoaDonRepository.findByPhieuDatPhong_MaPhieu(maPhieu).orElse(null);
+        if (hoaDon == null) {
+            hoaDon = new HoaDon();
+            hoaDon.setPhieuDatPhong(phieu);
+            hoaDon.setTongTien(phieu.getTongTien());
+            hoaDon.setConLai(phieu.getTongTien());
+            hoaDon = hoaDonRepository.save(hoaDon);
+        }
+
+        ThanhToan thanhToan = new ThanhToan();
+        thanhToan.setHoaDon(hoaDon);
+        thanhToan.setPhuongThuc(PhuongThucThanhToan.valueOf(paymentRequest.getPhuongThuc()));
+        thanhToan.setSoTien(paymentRequest.getSoTien());
+        thanhToan.setTrangThai(TrangThaiThanhToan.ThanhCong);
+        thanhToanRepository.save(thanhToan);
+
+        hoaDon.setDaThanhToan(hoaDon.getDaThanhToan().add(paymentRequest.getSoTien()));
+        hoaDon.setConLai(hoaDon.getTongTien().subtract(hoaDon.getDaThanhToan()));
+        if (hoaDon.getConLai().compareTo(BigDecimal.ZERO) <= 0) {
+            hoaDon.setTrangThai(TrangThaiHoaDon.DaThanhToan);
+        }
+        hoaDonRepository.save(hoaDon);
+
+        phieu.setTrangThai(TrangThaiPhieuDat.DaXacNhan);
+        phieuDatPhongRepository.save(phieu);
+
+        return new BookingResponse(true, "Thanh toán thành công", maPhieu, LocalDateTime.now(), paymentRequest.getSoTien().doubleValue());
     }
 }

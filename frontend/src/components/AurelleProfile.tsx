@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { AurellePaymentModal } from './AurellePaymentModal';
 
 interface RoomInfo {
   soPhong: string;
@@ -37,18 +38,24 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
   
   const [history, setHistory] = useState<BookingHistory[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [paymentBooking, setPaymentBooking] = useState<{ id: number; amount: number } | null>(null);
+
+  const fetchHistory = () => {
+    if (!user) return;
+    setLoadingHistory(true);
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:8088/api/bookings/history/${user.maKH}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => setHistory(data))
+      .catch(console.error)
+      .finally(() => setLoadingHistory(false));
+  };
 
   useEffect(() => {
-    if (activeTab === 'history' && user) {
-      setLoadingHistory(true);
-      const token = localStorage.getItem('token');
-      fetch(`http://localhost:8088/api/bookings/history/${user.maKH}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-        .then(res => res.json())
-        .then(data => setHistory(data))
-        .catch(console.error)
-        .finally(() => setLoadingHistory(false));
+    if (activeTab === 'history') {
+      fetchHistory();
     }
   }, [activeTab, user]);
 
@@ -256,11 +263,47 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
                       <span style={{ fontStyle: 'italic', color: 'var(--color-charcoal-muted)' }}>Đang xếp phòng...</span>
                     )}
                   </div>
+
+                  {(booking.trangThai === 'ChoXacNhan' || booking.trangThai === 'DaXacNhan') && (
+                    <div style={{ marginTop: '16px', borderTop: '1px solid var(--color-border)', paddingTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => setPaymentBooking({ id: booking.maPhieu, amount: booking.tongTien })}
+                        style={{
+                          padding: '10px 20px',
+                          backgroundColor: '#1A1A1A',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '6px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '14px'
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>qr_code_scanner</span>
+                        Thanh toán QR
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           )}
         </div>
+      )}
+
+      {paymentBooking && (
+        <AurellePaymentModal
+          bookingId={paymentBooking.id}
+          amount={paymentBooking.amount}
+          onClose={() => setPaymentBooking(null)}
+          onSuccess={() => {
+            setPaymentBooking(null);
+            fetchHistory(); // Refresh history
+          }}
+        />
       )}
     </div>
   );

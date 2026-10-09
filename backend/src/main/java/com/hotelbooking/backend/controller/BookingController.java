@@ -29,4 +29,16 @@ public class BookingController {
     public ResponseEntity<java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO>> getBookingHistory(@PathVariable Integer maKH) {
         return ResponseEntity.ok(bookingService.getBookingHistory(maKH));
     }
+
+    @PostMapping("/{maPhieu}/pay")
+    public ResponseEntity<BookingResponse> payBooking(
+            @PathVariable Integer maPhieu,
+            @RequestBody com.hotelbooking.backend.dto.PaymentRequestDTO paymentRequest) {
+        BookingResponse response = bookingService.payBooking(maPhieu, paymentRequest);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
