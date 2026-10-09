@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 interface AurelleHeaderProps {
   onFindStayClick: () => void;
+  onAuthClick?: () => void;
 }
 
-export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick }) => {
+export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, onAuthClick }) => {
   const { t, i18n } = useTranslation();
+  const { user, isAuthenticated } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -169,6 +172,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               {i18n.language === 'vi' ? 'EN' : 'VI'}
             </button>
             <button
+              onClick={onAuthClick}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -186,7 +190,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
                 person
               </span>
-              {t('header.signIn')}
+              {isAuthenticated ? user?.tenDangNhap : t('header.signIn')}
             </button>
             <button
               onClick={onFindStayClick}

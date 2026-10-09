@@ -10,9 +10,12 @@ import { AurelleFooter } from './components/AurelleFooter';
 import { getAurelleData } from './data/aurelleData';
 import { useTranslation } from 'react-i18next';
 import type { HotelStay, BookingSearchQuery, CollectionType } from './types/aurelle';
+import { AurelleAuthModal } from './components/AurelleAuthModal';
+import { AurelleProfile } from './components/AurelleProfile';
+import { useAuth } from './context/AuthContext';
 
 export default function App() {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const { FEATURED_STAYS, COLLECTIONS, TESTIMONIALS } = getAurelleData(i18n.language);
 
   const [selectedStay, setSelectedStay] = useState<HotelStay | null>(null);
@@ -21,6 +24,10 @@ export default function App() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchFeedback, setSearchFeedback] = useState<string | null>(null);
   const [dbStays, setDbStays] = useState<HotelStay[]>([]);
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     fetch('http://localhost:8088/api/rooms/types')
@@ -115,9 +122,22 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* 1. STICKY HEADER */}
-      <AurelleHeader onFindStayClick={scrollToBookingBar} />
+      <AurelleHeader 
+        onFindStayClick={scrollToBookingBar} 
+        onAuthClick={() => {
+          if (isAuthenticated) {
+            setShowProfile(true);
+          } else {
+            setShowAuthModal(true);
+          }
+        }}
+      />
 
-      {/* 2. HERO SECTION */}
+      {showProfile ? (
+        <AurelleProfile onBack={() => setShowProfile(false)} />
+      ) : (
+        <>
+          {/* 2. HERO SECTION */}
       <AurelleHero onExploreClick={() => {
         const element = document.getElementById('destinations');
         if (element) element.scrollIntoView({ behavior: 'smooth' });
@@ -184,12 +204,16 @@ export default function App() {
 
       {/* 7. FOOTER */}
       <AurelleFooter />
+      </>
+      )}
 
       {/* HOTEL DETAIL MODAL */}
       <AurelleDetailModal
         stay={selectedStay}
         onClose={() => setSelectedStay(null)}
       />
+
+      {showAuthModal && <AurelleAuthModal onClose={() => setShowAuthModal(false)} />}
     </div>
   );
 }

@@ -27,4 +27,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody com.hotelbooking.backend.dto.LoginRequest request) {
+        try {
+            com.hotelbooking.backend.dto.LoginResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (org.springframework.security.core.AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tên đăng nhập hoặc mật khẩu không chính xác");
+        }
+    }
 }
