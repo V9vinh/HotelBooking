@@ -30,6 +30,19 @@ export function AurelleAdminRooms() {
   }, []);
 
   const handleSave = (id: number) => {
+    if (!formData.tenLoaiPhong || formData.tenLoaiPhong.trim() === '') {
+      alert('Tên loại phòng không được để trống.');
+      return;
+    }
+    if (!formData.sucChua || formData.sucChua <= 0) {
+      alert('Sức chứa phải lớn hơn 0.');
+      return;
+    }
+    if (!formData.giaCoBan || formData.giaCoBan < 0) {
+      alert('Giá cơ bản không hợp lệ.');
+      return;
+    }
+
     if (id === 0) {
       // Create new
       fetch('http://localhost:8088/api/rooms/types', {

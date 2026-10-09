@@ -15,6 +15,7 @@ interface AdminBooking {
 export function AurelleAdminBookings() {
   const [bookings, setBookings] = useState<AdminBooking[]>([]);
   const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState<{ totalBookings: number; totalCustomers: number; totalRevenue: number } | null>(null);
 
   const fetchBookings = () => {
     setLoading(true);
@@ -25,8 +26,16 @@ export function AurelleAdminBookings() {
       .finally(() => setLoading(false));
   };
 
+  const fetchStats = () => {
+    fetch('http://localhost:8088/api/admin/statistics')
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(console.error);
+  };
+
   useEffect(() => {
     fetchBookings();
+    fetchStats();
   }, []);
 
   const updateStatus = (maPhieu: number, newStatus: string) => {
@@ -75,6 +84,23 @@ export function AurelleAdminBookings() {
   return (
     <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h1 style={{ fontSize: '24px', fontWeight: 600, color: '#1A1A1A', marginBottom: '24px' }}>Quản lý Đặt phòng</h1>
+
+      {stats && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+          <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', borderLeft: '4px solid var(--color-forest)' }}>
+            <div style={{ color: '#6b7280', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>Tổng Đặt Phòng</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#111827' }}>{stats.totalBookings}</div>
+          </div>
+          <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', borderLeft: '4px solid var(--color-champagne)' }}>
+            <div style={{ color: '#6b7280', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>Tổng Khách Hàng</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#111827' }}>{stats.totalCustomers}</div>
+          </div>
+          <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', borderLeft: '4px solid #1D4ED8' }}>
+            <div style={{ color: '#6b7280', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>Tổng Doanh Thu</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#111827' }}>{formatPrice(stats.totalRevenue)}</div>
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <p>Đang tải dữ liệu...</p>
