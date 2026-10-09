@@ -12,7 +12,8 @@ const resources = {
         experience: 'The Experience'
       },
       header: {
-        findStay: 'Find a Stay'
+        findStay: 'Find a Stay',
+        signIn: 'Sign In'
       },
       hero: {
         tag: 'Curated Resort Sanctuaries',
@@ -119,7 +120,11 @@ const resources = {
         nights: 'Nights',
         total: 'Total:',
         success: 'Inquiry submitted! Our bespoke concierge will prepare your private itinerary for {{stay}} within 2 hours.',
-        requestBtn: 'Request Sanctuary Reservation'
+        requestBtn: 'Request Sanctuary Reservation',
+        promoCode: 'Promo Code',
+        extraServices: 'Extra Services',
+        airportTransfer: 'Airport Transfer',
+        spaPackage: 'Spa Package'
       }
     }
   },
@@ -132,7 +137,8 @@ const resources = {
         experience: 'Trải nghiệm'
       },
       header: {
-        findStay: 'Tìm phòng'
+        findStay: 'Tìm phòng',
+        signIn: 'Đăng nhập'
       },
       hero: {
         tag: 'Nơi Trú Ẩn Được Tuyển Chọn',
@@ -239,7 +245,11 @@ const resources = {
         nights: 'Đêm',
         total: 'Tổng cộng:',
         success: 'Yêu cầu đã được gửi! Đội ngũ trợ lý riêng của chúng tôi sẽ chuẩn bị lịch trình cá nhân cho {{stay}} trong vòng 2 giờ.',
-        requestBtn: 'Yêu cầu đặt phòng'
+        requestBtn: 'Yêu cầu đặt phòng',
+        promoCode: 'Mã khuyến mãi',
+        extraServices: 'Dịch vụ kèm theo',
+        airportTransfer: 'Đưa đón sân bay',
+        spaPackage: 'Gói Spa cao cấp'
       }
     }
   }

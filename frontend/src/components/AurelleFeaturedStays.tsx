@@ -15,7 +15,15 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
   activeCollectionFilter,
   onClearFilter,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const formatPrice = (amount: number) => {
+    if (i18n.language.startsWith('vi')) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+    return `$${amount.toLocaleString()}`;
+  };
+
   return (
     <section id="destinations" style={{ padding: '60px 0 80px' }}>
       <div className="container-luxe">
@@ -272,7 +280,7 @@ export const AurelleFeaturedStays: React.FC<AurelleFeaturedStaysProps> = ({
                       {t('featured.from')}
                     </div>
                     <div style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-forest)' }}>
-                      ${stay.pricePerNight}{' '}
+                      {formatPrice(stay.pricePerNight)}{' '}
                       <span style={{ fontSize: '12px', fontWeight: 400, color: 'var(--color-charcoal-muted)' }}>
                         {t('featured.night')}
                       </span>

@@ -8,10 +8,12 @@ interface AurelleDetailModalProps {
 }
 
 export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, onClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [nights, setNights] = useState(3);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [extraServices, setExtraServices] = useState<string[]>([]);
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -28,7 +30,17 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
 
   if (!stay) return null;
 
-  const totalEstimate = stay.pricePerNight * nights;
+  const serviceMultiplier = i18n.language.startsWith('vi') ? 25000 : 1;
+  const extraCost = extraServices.length * (150 * serviceMultiplier);
+  const discount = promoCode.toLowerCase() === 'vip' ? (50 * serviceMultiplier) : 0;
+  const totalEstimate = stay.pricePerNight * nights + extraCost - discount;
+
+  const formatPrice = (amount: number) => {
+    if (i18n.language.startsWith('vi')) {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
+    return `$${amount.toLocaleString()}`;
+  };
 
   return (
     <div
@@ -173,7 +185,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
 
             <div style={{ textAlign: 'right' }}>
               <div style={{ fontSize: '26px', fontWeight: 700, color: 'var(--color-forest)' }}>
-                ${stay.pricePerNight}{' '}
+                {formatPrice(stay.pricePerNight)}{' '}
                 <span style={{ fontSize: '13px', fontWeight: 400, color: 'var(--color-charcoal-muted)' }}>
                   {t('featured.night')}
                 </span>
@@ -331,8 +343,52 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                   <option value={7}>7 {t('modal.nights')}</option>
                 </select>
                 <div style={{ fontWeight: 700, fontSize: '18px', color: 'var(--color-champagne)' }}>
-                  {t('modal.total')} ${totalEstimate.toLocaleString()}
+                  {t('modal.total')} {formatPrice(totalEstimate)}
                 </div>
+              </div>
+            </div>
+
+            {/* Extra Services & Promo Code */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '16px', marginBottom: '20px' }}>
+              <div style={{ flex: 1, minWidth: '200px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-charcoal-muted)', marginBottom: '8px', display: 'block' }}>
+                  {t('modal.extraServices')}
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <label style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={extraServices.includes('airport')} onChange={(e) => {
+                      if (e.target.checked) setExtraServices([...extraServices, 'airport']);
+                      else setExtraServices(extraServices.filter(s => s !== 'airport'));
+                    }} />
+                    {t('modal.airportTransfer')} (+{formatPrice(150 * serviceMultiplier)})
+                  </label>
+                  <label style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={extraServices.includes('spa')} onChange={(e) => {
+                      if (e.target.checked) setExtraServices([...extraServices, 'spa']);
+                      else setExtraServices(extraServices.filter(s => s !== 'spa'));
+                    }} />
+                    {t('modal.spaPackage')} (+{formatPrice(150 * serviceMultiplier)})
+                  </label>
+                </div>
+              </div>
+
+              <div style={{ flex: 1, minWidth: '200px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-charcoal-muted)', marginBottom: '8px', display: 'block' }}>
+                  {t('modal.promoCode')}
+                </label>
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="e.g. VIP"
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    border: '1px solid var(--color-border-hairline)',
+                    borderRadius: '4px',
+                    fontSize: '13px'
+                  }}
+                />
               </div>
             </div>
 

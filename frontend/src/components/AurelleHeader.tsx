@@ -169,6 +169,26 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick })
               {i18n.language === 'vi' ? 'EN' : 'VI'}
             </button>
             <button
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--color-forest)',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                person
+              </span>
+              {t('header.signIn')}
+            </button>
+            <button
               onClick={onFindStayClick}
               className="btn-gold"
               style={{
