@@ -73,11 +73,67 @@ public class BookingServiceImpl implements BookingService {
                     chiTietDatPhongRepository.save(chiTiet);
                 }
             }
+        } else if (request.getMaLoaiPhong() != null) {
+            java.util.List<Phong> availableRooms = phongRepository.findAvailableRooms(request.getMaLoaiPhong(), request.getNgayNhan(), request.getNgayTra());
+            int numRequested = request.getSoLuongPhong() != null ? request.getSoLuongPhong() : 1;
+            
+            if (availableRooms.size() < numRequested) {
+                return new BookingResponse(false, "Không đủ phòng trống cho loại phòng này trong thời gian đã chọn.");
+            }
+            
+            for (int i = 0; i < numRequested; i++) {
+                Phong phong = availableRooms.get(i);
+                ChiTietDatPhong chiTiet = new ChiTietDatPhong();
+                chiTiet.setPhieuDatPhong(phieu);
+                chiTiet.setPhong(phong);
+                chiTiet.setDonGia(phong.getLoaiPhong().getGiaCoBan());
+                chiTiet.setSoDem((int) soDem);
+                
+                BigDecimal thanhTien = phong.getLoaiPhong().getGiaCoBan().multiply(new BigDecimal(soDem));
+                chiTiet.setThanhTien(thanhTien);
+                
+                tongTien = tongTien.add(thanhTien);
+                chiTietDatPhongRepository.save(chiTiet);
+            }
+        } else {
+            return new BookingResponse(false, "Vui lòng chọn phòng hoặc loại phòng.");
         }
 
         phieu.setTongTien(tongTien);
         phieuDatPhongRepository.save(phieu);
 
         return new BookingResponse(true, "Đặt phòng thành công", phieu.getMaPhieu(), LocalDateTime.now(), tongTien.doubleValue());
+    }
+
+    @Override
+    public java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO> getBookingHistory(Integer maKhachHang) {
+        java.util.List<PhieuDatPhong> phieus = phieuDatPhongRepository.findByKhachHang_MaKHOrderByNgayDatDesc(maKhachHang);
+        java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO> result = new java.util.ArrayList<>();
+
+        for (PhieuDatPhong p : phieus) {
+            java.util.List<ChiTietDatPhong> chiTiets = chiTietDatPhongRepository.findByPhieuDatPhong_MaPhieu(p.getMaPhieu());
+            java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO.RoomInfoDTO> roomInfos = new java.util.ArrayList<>();
+            for (ChiTietDatPhong c : chiTiets) {
+                if (c.getPhong() != null) {
+                    roomInfos.add(new com.hotelbooking.backend.dto.BookingHistoryDTO.RoomInfoDTO(
+                            c.getPhong().getSoPhong(),
+                            c.getPhong().getLoaiPhong() != null ? c.getPhong().getLoaiPhong().getTenLoaiPhong() : "N/A"
+                    ));
+                }
+            }
+
+            result.add(new com.hotelbooking.backend.dto.BookingHistoryDTO(
+                    p.getMaPhieu(),
+                    p.getNgayDat(),
+                    p.getNgayNhan(),
+                    p.getNgayTra(),
+                    p.getSoNguoi(),
+                    p.getTongTien(),
+                    p.getTrangThai().name(),
+                    roomInfos
+            ));
+        }
+
+        return result;
     }
 }

@@ -24,4 +24,9 @@ public class BookingController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @GetMapping("/history/{maKH}")
+    public ResponseEntity<java.util.List<com.hotelbooking.backend.dto.BookingHistoryDTO>> getBookingHistory(@PathVariable Integer maKH) {
+        return ResponseEntity.ok(bookingService.getBookingHistory(maKH));
+    }
 }

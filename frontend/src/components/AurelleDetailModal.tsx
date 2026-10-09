@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { HotelStay } from '../types/aurelle';
+import { useAuth } from '../context/AuthContext';
 
 interface AurelleDetailModalProps {
   stay: HotelStay | null;
@@ -9,9 +10,18 @@ interface AurelleDetailModalProps {
 
 export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, onClose }) => {
   const { t, i18n } = useTranslation();
+  const { user, isAuthenticated } = useAuth();
+  
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [nights, setNights] = useState(3);
+  const [checkIn, setCheckIn] = useState<string>(() => {
+    const tmr = new Date();
+    tmr.setDate(tmr.getDate() + 1);
+    return tmr.toISOString().split('T')[0];
+  });
+  
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [loadingBooking, setLoadingBooking] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [extraServices, setExtraServices] = useState<number[]>([]);
   const [dbServices, setDbServices] = useState<any[]>([]);
@@ -67,6 +77,54 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
         }
       })
       .catch(console.error);
+  };
+
+  const handleBooking = async () => {
+    if (!isAuthenticated || !user) {
+      alert('Vui lòng đăng nhập để đặt phòng!');
+      return;
+    }
+    
+    setLoadingBooking(true);
+    try {
+      const maLoaiPhong = parseInt(stay.id.replace('room-', ''));
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkIn);
+      checkOutDate.setDate(checkOutDate.getDate() + nights);
+      
+      const payload = {
+        maKhachHang: user.maKH,
+        maLoaiPhong: maLoaiPhong,
+        soLuongPhong: 1,
+        ngayNhan: checkInDate.toISOString().split('T')[0],
+        ngayTra: checkOutDate.toISOString().split('T')[0],
+        soNguoi: stay.specs.guests,
+        maCodeKhuyenMai: isPromoApplied ? promoCode : null,
+        ghiChu: extraServices.length > 0 ? `Dịch vụ thêm: ${extraServices.join(',')}` : ''
+      };
+
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8088/api/bookings/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setBookingSuccess(true);
+      } else {
+        alert(data.message || 'Có lỗi xảy ra khi đặt phòng.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Lỗi kết nối đến máy chủ.');
+    } finally {
+      setLoadingBooking(false);
+    }
   };
 
   const formatPrice = (amount: number) => {
@@ -358,7 +416,21 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                 </div>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>Check In</span>
+                <input
+                  type="date"
+                  value={checkIn}
+                  onChange={(e) => setCheckIn(e.target.value)}
+                  style={{
+                    padding: '6px 10px',
+                    border: '1px solid var(--color-border-hairline)',
+                    borderRadius: '4px',
+                    backgroundColor: '#FFFFFF',
+                    fontSize: '13px',
+                  }}
+                />
+                
                 <span style={{ fontSize: '13px', color: 'var(--color-charcoal-muted)' }}>{t('modal.duration')}</span>
                 <select
                   value={nights}
@@ -371,6 +443,7 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
                     fontSize: '13px',
                   }}
                 >
+                  <option value={1}>1 {t('modal.nights')}</option>
                   <option value={2}>2 {t('modal.nights')}</option>
                   <option value={3}>3 {t('modal.nights')}</option>
                   <option value={5}>5 {t('modal.nights')}</option>
@@ -470,11 +543,12 @@ export const AurelleDetailModal: React.FC<AurelleDetailModalProps> = ({ stay, on
               </div>
             ) : (
               <button
-                onClick={() => setBookingSuccess(true)}
+                onClick={handleBooking}
+                disabled={loadingBooking}
                 className="btn-gold"
-                style={{ width: '100%', padding: '14px' }}
+                style={{ width: '100%', padding: '14px', opacity: loadingBooking ? 0.7 : 1 }}
               >
-                {t('modal.requestBtn')}
+                {loadingBooking ? 'Processing...' : t('modal.requestBtn')}
               </button>
             )}
           </div>
