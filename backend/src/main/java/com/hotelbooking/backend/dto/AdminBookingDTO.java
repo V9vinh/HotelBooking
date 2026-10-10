@@ -1,5 +1,6 @@
 package com.hotelbooking.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,9 +9,16 @@ public class AdminBookingDTO {
     private Integer maPhieu;
     private String tenKhachHang;
     private String sdtKhachHang;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime ngayDat;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayNhan;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayTra;
+
     private Integer soNguoi;
     private BigDecimal tongTien;
     private String trangThai;
@@ -18,7 +26,9 @@ public class AdminBookingDTO {
     public AdminBookingDTO() {
     }
 
-    public AdminBookingDTO(Integer maPhieu, String tenKhachHang, String sdtKhachHang, LocalDateTime ngayDat, LocalDate ngayNhan, LocalDate ngayTra, Integer soNguoi, BigDecimal tongTien, String trangThai) {
+    public AdminBookingDTO(Integer maPhieu, String tenKhachHang, String sdtKhachHang,
+                           LocalDateTime ngayDat, LocalDate ngayNhan, LocalDate ngayTra,
+                           Integer soNguoi, BigDecimal tongTien, String trangThai) {
         this.maPhieu = maPhieu;
         this.tenKhachHang = tenKhachHang;
         this.sdtKhachHang = sdtKhachHang;

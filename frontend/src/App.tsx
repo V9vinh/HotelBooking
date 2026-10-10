@@ -12,8 +12,14 @@ import { useTranslation } from 'react-i18next';
 import type { HotelStay, BookingSearchQuery, CollectionType } from './types/aurelle';
 import { AurelleAuthModal } from './components/AurelleAuthModal';
 import { AurelleProfile } from './components/AurelleProfile';
-import { AurelleAdminBookings } from './components/AurelleAdminBookings';
-import { AurelleAdminRooms } from './components/AurelleAdminRooms';
+import { AdminLayout } from './components/AdminLayout';
+import type { AdminPage } from './components/AdminLayout';
+import { AdminBookingsPage } from './components/AdminBookingsPage';
+import { AdminRoomMapPage } from './components/AdminRoomMapPage';
+import { AdminCalendarPage } from './components/AdminCalendarPage';
+import { AdminRoomTypesPage } from './components/AdminRoomTypesPage';
+import { AdminPromotionsPage } from './components/AdminPromotionsPage';
+import { AdminGuestsPage } from './components/AdminGuestsPage';
 import { useAuth } from './context/AuthContext';
 
 export default function App() {
@@ -25,12 +31,14 @@ export default function App() {
   const [searchFilter, setSearchFilter] = useState<string | null>(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchFeedback, setSearchFeedback] = useState<string | null>(null);
+  const [searchDates, setSearchDates] = useState<{checkIn: string, checkOut: string} | null>(null);
   const [dbStays, setDbStays] = useState<HotelStay[]>([]);
 
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [profileTab, setProfileTab] = useState<'profile' | 'history'>('profile');
   const [showAdmin, setShowAdmin] = useState(false);
-  const [adminTab, setAdminTab] = useState<'bookings' | 'rooms'>('bookings');
+  const [adminTab, setAdminTab] = useState<AdminPage>('bookings');
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -46,7 +54,7 @@ export default function App() {
             subtitle: fallback.subtitle,
             location: fallback.location, // fallback since DB doesn't have it
             country: fallback.country,
-            pricePerNight: i18n.language.startsWith('vi') ? room.giaCoBan * 25000 : room.giaCoBan,
+            pricePerNight: room.giaCoBan,
             rating: fallback.rating,
             reviewsCount: fallback.reviewsCount,
             imageUrl: fallback.imageUrl,
@@ -86,6 +94,10 @@ export default function App() {
     setSearchLoading(true);
     setSearchFeedback(null);
 
+    if (query.checkIn && query.checkOut) {
+      setSearchDates({ checkIn: query.checkIn, checkOut: query.checkOut });
+    }
+
     const queryParams = new URLSearchParams();
     if (query.destination) queryParams.append('destination', query.destination);
     if (query.checkIn) queryParams.append('checkIn', query.checkIn);
@@ -104,7 +116,7 @@ export default function App() {
             subtitle: fallback.subtitle,
             location: fallback.location,
             country: fallback.country,
-            pricePerNight: i18n.language.startsWith('vi') ? room.giaCoBan * 25000 : room.giaCoBan,
+            pricePerNight: room.giaCoBan,
             rating: fallback.rating,
             reviewsCount: fallback.reviewsCount,
             imageUrl: fallback.imageUrl,
@@ -171,10 +183,13 @@ export default function App() {
       {/* 1. STICKY HEADER */}
       <AurelleHeader 
         onFindStayClick={scrollToBookingBar} 
-        onAuthClick={() => {
+        onAuthClick={(tab?: 'profile' | 'history') => {
           if (isAuthenticated) {
             setShowAdmin(false);
-            setShowProfile(true);
+            if (tab) {
+              setProfileTab(tab);
+              setShowProfile(true);
+            }
           } else {
             setShowAuthModal(true);
           }
@@ -183,44 +198,34 @@ export default function App() {
           setShowProfile(false);
           setShowAdmin(true);
         }}
+        onHomeClick={() => {
+          setShowProfile(false);
+          setShowAdmin(false);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        onNavClick={(id) => {
+          setShowProfile(false);
+          setShowAdmin(false);
+          setTimeout(() => {
+            const element = document.getElementById(id);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        }}
       />
 
       {showAdmin ? (
-        <div style={{ backgroundColor: '#f9fafb', minHeight: '100vh', paddingTop: '20px' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto 20px', padding: '0 20px', display: 'flex', gap: '16px' }}>
-            <button
-              onClick={() => setAdminTab('bookings')}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: adminTab === 'bookings' ? 'var(--color-forest)' : '#fff',
-                color: adminTab === 'bookings' ? '#fff' : 'var(--color-forest)',
-                border: '1px solid var(--color-forest)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 600
-              }}
-            >
-              Quản lý Đặt phòng
-            </button>
-            <button
-              onClick={() => setAdminTab('rooms')}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: adminTab === 'rooms' ? 'var(--color-forest)' : '#fff',
-                color: adminTab === 'rooms' ? '#fff' : 'var(--color-forest)',
-                border: '1px solid var(--color-forest)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 600
-              }}
-            >
-              Quản lý Loại phòng
-            </button>
-          </div>
-          {adminTab === 'bookings' ? <AurelleAdminBookings /> : <AurelleAdminRooms />}
-        </div>
+        <AdminLayout activePage={adminTab} onNavigate={setAdminTab} onExitAdmin={() => setShowAdmin(false)}>
+          {adminTab === 'bookings' && <AdminBookingsPage />}
+          {adminTab === 'rooms' && <AdminRoomTypesPage />}
+          {adminTab === 'dashboard' && <AdminRoomMapPage />}
+          {adminTab === 'guests' && <AdminGuestsPage />}
+          {adminTab === 'payments' && <div style={{padding: '24px'}}>Module Thanh toán đang phát triển</div>}
+          {adminTab === 'settings' && <div style={{padding: '24px'}}>Module Cài đặt đang phát triển</div>}
+        </AdminLayout>
       ) : showProfile ? (
-        <AurelleProfile onBack={() => setShowProfile(false)} />
+        <AurelleProfile onBack={() => setShowProfile(false)} initialTab={profileTab} />
       ) : (
         <>
           {/* 2. HERO SECTION */}
@@ -297,6 +302,7 @@ export default function App() {
       <AurelleDetailModal
         stay={selectedStay}
         onClose={() => setSelectedStay(null)}
+        initialDates={searchDates}
       />
 
       {showAuthModal && <AurelleAuthModal onClose={() => setShowAuthModal(false)} />}

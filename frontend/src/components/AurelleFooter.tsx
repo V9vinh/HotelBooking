@@ -38,7 +38,7 @@ export const AurelleFooter: React.FC = () => {
           <div style={{ maxWidth: '340px' }}>
             <div
               style={{
-                fontFamily: 'var(--font-serif)',
+                fontFamily: 'var(--font-brand)',
                 fontSize: '22px',
                 fontWeight: 600,
                 letterSpacing: '0.16em',
@@ -167,66 +167,7 @@ export const AurelleFooter: React.FC = () => {
             </ul>
           </div>
 
-          {/* Col 4: Newsletter */}
-          <div>
-            <h4
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '16px',
-                color: '#FFFFFF',
-                marginBottom: '12px',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {t('footer.journal')}
-            </h4>
-            <p style={{ fontSize: '13px', color: '#B3B8B2', lineHeight: 1.6, marginBottom: '18px' }}>
-              {t('footer.journalDesc')}
-            </p>
 
-            <form onSubmit={handleNewsletterSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <input
-                type="email"
-                placeholder={t('footer.emailPh')}
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setNewsletterStatus('idle');
-                }}
-                style={{
-                  padding: '12px 14px',
-                  borderRadius: '4px',
-                  border: '1px solid rgba(230, 223, 211, 0.3)',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  color: '#FFFFFF',
-                  fontSize: '13px',
-                  outline: 'none',
-                }}
-              />
-              <button
-                type="submit"
-                className="btn-gold"
-                style={{
-                  padding: '12px',
-                  fontSize: '12px',
-                  width: '100%',
-                }}
-              >
-                {t('footer.joinBtn')}
-              </button>
-            </form>
-
-            {newsletterStatus === 'success' && (
-              <div style={{ marginTop: '10px', fontSize: '12px', color: '#34D399' }}>
-                {t('footer.successMsg')}
-              </div>
-            )}
-            {newsletterStatus === 'error' && (
-              <div style={{ marginTop: '10px', fontSize: '12px', color: '#F87171' }}>
-                {t('footer.errorMsg')}
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Bottom Bar */}

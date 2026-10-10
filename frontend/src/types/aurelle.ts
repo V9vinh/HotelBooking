@@ -1,4 +1,4 @@
-export type CollectionType = 'Beach Escapes' | 'Mountain Retreats' | 'Private Villas';
+export type CollectionType = 'Beach Escapes' | 'Mountain Retreats' | 'Private Villas' | 'Rooms' | 'Suites' | 'Family';
 
 export interface HotelStay {
   id: string;

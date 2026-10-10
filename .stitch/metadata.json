@@ -22,6 +22,16 @@
       "width": 2560,
       "height": 9476,
       "deviceType": "DESKTOP"
+    },
+    "stay-detail": {
+      "id": "290411fb2c9f4ecf87be2e32a97884b3",
+      "sourceScreen": "projects/7022934430088621984/screens/290411fb2c9f4ecf87be2e32a97884b3",
+      "title": "The Luminary Pavilion, Amalfi Coast - Aurelle Stays",
+      "width": 2560,
+      "height": 11932,
+      "deviceType": "DESKTOP",
+      "x": 3000,
+      "y": 0
     }
   }
 }

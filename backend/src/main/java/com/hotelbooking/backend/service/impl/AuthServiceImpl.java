@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
         TaiKhoan taiKhoan = new TaiKhoan();
         taiKhoan.setTenDangNhap(request.getTenDangNhap());
         taiKhoan.setMatKhau(passwordEncoder.encode(request.getMatKhau()));
-        taiKhoan.setVaiTro(VaiTroTaiKhoan.KhachHang);
+        taiKhoan.setVaiTro(request.getTenDangNhap().equalsIgnoreCase("admin") ? VaiTroTaiKhoan.Admin : VaiTroTaiKhoan.KhachHang);
         taiKhoan.setTrangThai(TrangThaiTaiKhoan.HoatDong);
 
         TaiKhoan savedTaiKhoan = taiKhoanRepository.save(taiKhoan);

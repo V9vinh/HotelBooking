@@ -1,5 +1,6 @@
 package com.hotelbooking.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,9 +8,16 @@ import java.util.List;
 
 public class BookingHistoryDTO {
     private Integer maPhieu;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime ngayDat;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayNhan;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayTra;
+
     private Integer soNguoi;
     private BigDecimal tongTien;
     private String trangThai;
@@ -33,7 +41,9 @@ public class BookingHistoryDTO {
 
     public BookingHistoryDTO() {}
 
-    public BookingHistoryDTO(Integer maPhieu, LocalDateTime ngayDat, LocalDate ngayNhan, LocalDate ngayTra, Integer soNguoi, BigDecimal tongTien, String trangThai, List<RoomInfoDTO> rooms, boolean isReviewed) {
+    public BookingHistoryDTO(Integer maPhieu, LocalDateTime ngayDat, LocalDate ngayNhan,
+                             LocalDate ngayTra, Integer soNguoi, BigDecimal tongTien,
+                             String trangThai, List<RoomInfoDTO> rooms, boolean isReviewed) {
         this.maPhieu = maPhieu;
         this.ngayDat = ngayDat;
         this.ngayNhan = ngayNhan;
@@ -45,7 +55,6 @@ public class BookingHistoryDTO {
         this.isReviewed = isReviewed;
     }
 
-    // Getters and Setters
     public Integer getMaPhieu() { return maPhieu; }
     public void setMaPhieu(Integer maPhieu) { this.maPhieu = maPhieu; }
     public LocalDateTime getNgayDat() { return ngayDat; }

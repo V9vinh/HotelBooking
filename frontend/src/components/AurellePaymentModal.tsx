@@ -27,6 +27,7 @@ export const AurellePaymentModal: React.FC<AurellePaymentModalProps> = ({ bookin
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({
         phuongThuc: 'ChuyenKhoan',

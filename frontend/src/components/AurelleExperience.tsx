@@ -55,7 +55,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
               }}
             >
               Founded on the belief that true luxury is not excess, but acoustic stillness,
-              sovereignty of time, and profound connection with the landscape. Each Aurelle stay is
+              sovereignty of time, and profound connection with the landscape. Each The Imperial Haven stay is
               privately verified by architectural historians and luxury hospitality curators.
             </p>
             <p
@@ -112,7 +112,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
             >
               <img
                 src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
-                alt="Aurelle resort craftsmanship"
+                alt="The Imperial Haven resort craftsmanship"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -134,7 +134,7 @@ export const AurelleExperience: React.FC<AurelleExperienceProps> = ({ testimonia
                 “Where nature meets architectural serenity.”
               </div>
               <div style={{ fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-champagne)' }}>
-                Aurelle Curators
+                The Imperial Haven Curators
               </div>
             </div>
           </div>

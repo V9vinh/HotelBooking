@@ -61,12 +61,12 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
-                .requestMatchers("/api/auth/**", "/api/rooms/**", "/api/services/**", "/api/promotions/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/rooms/**", "/api/services/**", "/api/promotions/**", "/error").permitAll()
                 // Authenticated user endpoints
                 .requestMatchers("/api/bookings/create", "/api/bookings/*/pay", "/api/bookings/reviews",
                         "/api/bookings/history/**", "/api/users/**").authenticated()
-                // Admin-only endpoints
-                .requestMatchers("/api/bookings/admin/**", "/api/admin/**").authenticated()
+                // Admin & Management endpoints
+                .requestMatchers("/api/bookings/admin/**", "/api/admin/**").hasAnyAuthority("ROLE_Admin", "ROLE_QuanLy", "ROLE_LeTan")
                 .anyRequest().authenticated()
             );
 
