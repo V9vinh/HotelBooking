@@ -18,6 +18,8 @@ public class ProfileDTO {
     private GioiTinh gioiTinh;
     private LocalDateTime ngayTao;
 
+    public ProfileDTO() {}
+
     public ProfileDTO(KhachHang khachHang, String tenDangNhap) {
         this.maKH = khachHang.getMaKH();
         this.tenDangNhap = tenDangNhap;

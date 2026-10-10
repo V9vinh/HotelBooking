@@ -19,15 +19,21 @@ export function AurelleAdminBookings() {
 
   const fetchBookings = () => {
     setLoading(true);
-    fetch('http://localhost:8088/api/bookings/admin/all')
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:8088/api/bookings/admin/all', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
       .then(res => res.json())
-      .then(data => setBookings(data))
+      .then(data => setBookings(Array.isArray(data) ? data : []))
       .catch(console.error)
       .finally(() => setLoading(false));
   };
 
   const fetchStats = () => {
-    fetch('http://localhost:8088/api/admin/statistics')
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:8088/api/admin/statistics', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(console.error);
@@ -39,9 +45,10 @@ export function AurelleAdminBookings() {
   }, []);
 
   const updateStatus = (maPhieu: number, newStatus: string) => {
+    const token = localStorage.getItem('token');
     fetch(`http://localhost:8088/api/bookings/admin/${maPhieu}/status`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ trangThai: newStatus })
     })
       .then(res => res.json())

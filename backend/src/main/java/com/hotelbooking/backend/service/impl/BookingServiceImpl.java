@@ -84,7 +84,9 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
         } else if (request.getMaLoaiPhong() != null) {
-            java.util.List<Phong> availableRooms = phongRepository.findAvailableRooms(request.getMaLoaiPhong(), request.getNgayNhan(), request.getNgayTra());
+            java.util.List<Phong> availableRooms = phongRepository.findAvailableRooms(
+                    request.getMaLoaiPhong(), request.getNgayNhan(), request.getNgayTra(),
+                    java.util.Arrays.asList(TrangThaiPhieuDat.DaHuy, TrangThaiPhieuDat.DaCheckOut));
             int numRequested = request.getSoLuongPhong() != null ? request.getSoLuongPhong() : 1;
             
             if (availableRooms.size() < numRequested) {
