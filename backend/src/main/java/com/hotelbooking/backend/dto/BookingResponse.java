@@ -1,12 +1,16 @@
 package com.hotelbooking.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class BookingResponse {
     private boolean success;
     private String message;
     private Integer maPhieu;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime ngayDat;
+
     private Double tongTien;
 
     public BookingResponse() {}
@@ -24,43 +28,14 @@ public class BookingResponse {
         this.tongTien = tongTien;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getMaPhieu() {
-        return maPhieu;
-    }
-
-    public void setMaPhieu(Integer maPhieu) {
-        this.maPhieu = maPhieu;
-    }
-
-    public LocalDateTime getNgayDat() {
-        return ngayDat;
-    }
-
-    public void setNgayDat(LocalDateTime ngayDat) {
-        this.ngayDat = ngayDat;
-    }
-
-    public Double getTongTien() {
-        return tongTien;
-    }
-
-    public void setTongTien(Double tongTien) {
-        this.tongTien = tongTien;
-    }
+    public boolean isSuccess() { return success; }
+    public void setSuccess(boolean success) { this.success = success; }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+    public Integer getMaPhieu() { return maPhieu; }
+    public void setMaPhieu(Integer maPhieu) { this.maPhieu = maPhieu; }
+    public LocalDateTime getNgayDat() { return ngayDat; }
+    public void setNgayDat(LocalDateTime ngayDat) { this.ngayDat = ngayDat; }
+    public Double getTongTien() { return tongTien; }
+    public void setTongTien(Double tongTien) { this.tongTien = tongTien; }
 }

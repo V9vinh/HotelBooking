@@ -4,15 +4,30 @@ import { useAuth } from '../context/AuthContext';
 
 interface AurelleHeaderProps {
   onFindStayClick: () => void;
-  onAuthClick?: () => void;
+  onAuthClick?: (tab?: 'profile' | 'history') => void;
   onAdminClick?: () => void;
+  onHomeClick?: () => void;
+  onNavClick?: (sectionId: string) => void;
 }
 
-export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, onAuthClick, onAdminClick }) => {
+export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, onAuthClick, onAdminClick, onHomeClick, onNavClick }) => {
   const { t, i18n } = useTranslation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.user-dropdown-container')) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,9 +39,13 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (onNavClick) {
+      onNavClick(id);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -56,6 +75,11 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
           {/* Brand Wordmark */}
           <a
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onHomeClick) onHomeClick();
+              else window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             style={{
               fontFamily: 'var(--font-serif)',
               fontSize: '22px',
@@ -68,16 +92,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               gap: '10px',
             }}
           >
-            <span
-              style={{
-                width: '8px',
-                height: '8px',
-                backgroundColor: 'var(--color-champagne)',
-                borderRadius: '50%',
-                display: 'inline-block',
-              }}
-            />
-            AURELLE STAYS
+            <img src="/logo.png" alt="The Imperial Haven Logo" style={{ height: '36px', objectFit: 'contain' }} />
           </a>
 
           {/* Desktop Navigation */}
@@ -94,7 +109,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 fontSize: '13px',
                 fontWeight: 500,
-                letterSpacing: '0.08em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 color: 'var(--color-charcoal)',
                 transition: 'color 0.2s',
@@ -109,7 +124,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 fontSize: '13px',
                 fontWeight: 500,
-                letterSpacing: '0.08em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 color: 'var(--color-charcoal)',
                 transition: 'color 0.2s',
@@ -124,7 +139,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 fontSize: '13px',
                 fontWeight: 500,
-                letterSpacing: '0.08em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 color: 'var(--color-charcoal)',
                 transition: 'color 0.2s',
@@ -139,7 +154,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 fontSize: '13px',
                 fontWeight: 500,
-                letterSpacing: '0.08em',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 color: 'var(--color-charcoal)',
                 transition: 'color 0.2s',
@@ -172,7 +187,7 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>language</span>
               {i18n.language === 'vi' ? 'EN' : 'VI'}
             </button>
-            {isAuthenticated && user?.email === 'admin@gmail.com' && (
+            {isAuthenticated && user?.vaiTro === 'Admin' && (
               <button
                 onClick={onAdminClick}
                 style={{
@@ -193,27 +208,108 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
                 Admin
               </button>
             )}
-            <button
-              onClick={onAuthClick}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'var(--color-forest)',
-                cursor: 'pointer',
-                fontSize: '13px',
-                fontWeight: 600,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
-                person
-              </span>
-              {isAuthenticated ? user?.tenDangNhap : t('header.signIn')}
-            </button>
+            {isAuthenticated ? (
+              <div className="user-dropdown-container" style={{ position: 'relative' }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUserMenuOpen(!userMenuOpen);
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--color-forest)',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                    person
+                  </span>
+                  {user?.tenDangNhap}
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px', transition: 'transform 0.2s', transform: userMenuOpen ? 'rotate(180deg)' : 'none' }}>
+                    expand_more
+                  </span>
+                </button>
+                
+                {userMenuOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    right: 0,
+                    marginTop: '12px',
+                    backgroundColor: 'var(--color-ivory)',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+                    borderRadius: '8px',
+                    width: '220px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'hidden',
+                    border: '1px solid var(--color-border)',
+                    zIndex: 100
+                  }}>
+                    <button 
+                      onClick={() => { setUserMenuOpen(false); if (onAuthClick) (onAuthClick as any)('profile'); }} 
+                      style={{ padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid var(--color-border)', cursor: 'pointer', borderTop: 'none', borderLeft: 'none', borderRight: 'none', background: 'transparent', fontSize: '14px', color: 'var(--color-charcoal)' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                    >
+                      Cập nhật hồ sơ cá nhân
+                    </button>
+                    {user?.vaiTro !== 'Admin' && (
+                      <button 
+                        onClick={() => { setUserMenuOpen(false); if (onAuthClick) (onAuthClick as any)('history'); }} 
+                        style={{ padding: '12px 16px', textAlign: 'left', cursor: 'pointer', borderTop: '1px solid var(--color-border)', borderBottom: 'none', borderLeft: 'none', borderRight: 'none', background: 'transparent', fontSize: '14px', color: 'var(--color-charcoal)' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                      >
+                        Lịch sử đặt phòng
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => { 
+                        setUserMenuOpen(false); 
+                        logout();
+                        if (onHomeClick) onHomeClick();
+                      }}
+                      style={{ padding: '12px 16px', textAlign: 'left', cursor: 'pointer', borderTop: '1px solid var(--color-border)', borderBottom: 'none', borderLeft: 'none', borderRight: 'none', background: 'transparent', fontSize: '14px', color: '#991B1B' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#FEF2F2')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => { if (onAuthClick) onAuthClick(); }}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'var(--color-forest)',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                  person
+                </span>
+                {t('header.signIn')}
+              </button>
+            )}
             <button
               onClick={onFindStayClick}
               className="btn-gold"
@@ -280,10 +376,13 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 textAlign: 'left',
                 fontSize: '16px',
-                fontFamily: 'var(--font-serif)',
+                fontFamily: 'var(--font-sans)',
                 color: 'var(--color-forest)',
                 padding: '8px 0',
                 borderBottom: '1px solid #ECE6DB',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
               }}
             >
               {t('nav.destinations')}
@@ -293,10 +392,13 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 textAlign: 'left',
                 fontSize: '16px',
-                fontFamily: 'var(--font-serif)',
+                fontFamily: 'var(--font-sans)',
                 color: 'var(--color-forest)',
                 padding: '8px 0',
                 borderBottom: '1px solid #ECE6DB',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
               }}
             >
               {t('nav.collections')}
@@ -306,10 +408,13 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 textAlign: 'left',
                 fontSize: '16px',
-                fontFamily: 'var(--font-serif)',
+                fontFamily: 'var(--font-sans)',
                 color: 'var(--color-forest)',
                 padding: '8px 0',
                 borderBottom: '1px solid #ECE6DB',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
               }}
             >
               {t('nav.offers')}
@@ -319,10 +424,13 @@ export const AurelleHeader: React.FC<AurelleHeaderProps> = ({ onFindStayClick, o
               style={{
                 textAlign: 'left',
                 fontSize: '16px',
-                fontFamily: 'var(--font-serif)',
+                fontFamily: 'var(--font-sans)',
                 color: 'var(--color-forest)',
                 padding: '8px 0',
                 borderBottom: '1px solid #ECE6DB',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+                fontWeight: 500,
               }}
             >
               {t('nav.experience')}

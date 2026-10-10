@@ -25,6 +25,7 @@ export interface RegisterRequest {
 export interface ProfileDTO {
   maKH: number;
   tenDangNhap: string;
+  vaiTro: string;
   hoTen: string;
   sdt: string;
   email: string;

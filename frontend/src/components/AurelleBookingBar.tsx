@@ -101,10 +101,10 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
             }}
           >
             <option value="">{t('search.options.destinations.all')}</option>
-            <option value="Amalfi Coast">{t('search.options.destinations.amalfi')}</option>
-            <option value="Kyoto">{t('search.options.destinations.kyoto')}</option>
-            <option value="St. Barts">{t('search.options.destinations.stbarts')}</option>
-            <option value="Zermatt">{t('search.options.destinations.zermatt')}</option>
+            <option value="District 1">{t('search.options.destinations.amalfi')}</option>
+            <option value="District 3">{t('search.options.destinations.kyoto')}</option>
+            <option value="Thao Dien">{t('search.options.destinations.stbarts')}</option>
+            <option value="Phu Nhuan">{t('search.options.destinations.zermatt')}</option>
           </select>
         </div>
 
@@ -129,6 +129,7 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
           </label>
           <input
             type={isCheckInFocused || !checkIn ? 'date' : 'text'}
+            min={new Date().toISOString().split('T')[0]}
             onFocus={() => setIsCheckInFocused(true)}
             onBlur={() => setIsCheckInFocused(false)}
             value={isCheckInFocused || !checkIn ? checkIn : formatDate(checkIn)}
@@ -172,6 +173,7 @@ export const AurelleBookingBar: React.FC<AurelleBookingBarProps> = ({ onSearch, 
           </label>
           <input
             type={isCheckOutFocused || !checkOut ? 'date' : 'text'}
+            min={checkIn ? (() => { const d = new Date(checkIn); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })() : new Date().toISOString().split('T')[0]}
             onFocus={() => setIsCheckOutFocused(true)}
             onBlur={() => setIsCheckOutFocused(false)}
             value={isCheckOutFocused || !checkOut ? checkOut : formatDate(checkOut)}

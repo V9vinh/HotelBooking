@@ -30,11 +30,11 @@ const resources = {
         searching: 'Searching...',
         options: {
           destinations: {
-            all: 'All Sanctuaries (Global)',
-            amalfi: 'Amalfi Coast, Italy',
-            kyoto: 'Arashiyama, Kyoto, Japan',
-            stbarts: 'St. Barts, French West Indies',
-            zermatt: 'Zermatt, Switzerland'
+            all: 'All Rooms (Ho Chi Minh City)',
+            amalfi: 'District 1, HCMC',
+            kyoto: 'District 3, HCMC',
+            stbarts: 'Thao Dien, Thu Duc City',
+            zermatt: 'Phu Nhuan, HCMC'
           },
           guests: {
             g1: '1 Guest (Solo Sanctuary)',
@@ -68,31 +68,31 @@ const resources = {
       },
       experience: {
         tag: 'Unscripted Moments',
-        title: 'The Aurelle Experience',
+        title: 'The Imperial Haven Experience',
         subtitle: 'Our guests speak of moments that linger long after they return.',
         readMore: 'Read More Stories'
       },
       footer: {
-        tag: 'AURELLE STAYS',
+        tag: 'THE IMPERIAL HAVEN',
         description: 'Bespoke resort sanctuaries for the discerning traveler. Curated architectural stillness across the world’s most mesmerizing horizons.',
         destinations: 'Destinations',
         collectionsPolicies: 'Collections & Policies',
-        journal: 'The Aurelle Journal',
+        journal: 'The Imperial Haven Journal',
         journalDesc: 'Receive our quarterly monograph on architectural travel, private previews, and unlisted stays.',
         emailPh: 'Enter your email address',
         joinBtn: 'Join Private Monograph',
-        successMsg: '✓ Welcome. You are now inscribed into the Aurelle Journal private edition.',
+        successMsg: '✓ Welcome. You are now inscribed into The Imperial Haven Journal private edition.',
         errorMsg: 'Please enter a valid email address.',
-        copyright: '© 2026 AURELLE STAYS LTD. All rights reserved.',
+        copyright: '© 2026 THE IMPERIAL HAVEN LTD. All rights reserved.',
         disclaimer: '*Illustrative luxury hospitality showcase. No real booking or payment processing occurs.*'
       },
       footerLinks: {
         destinations: [
-          'Amalfi Coast, Italy',
-          'Arashiyama, Kyoto, Japan',
-          'St. Barts, French West Indies',
-          'Zermatt, Swiss Alps',
-          'Santorini, Cyclades'
+          'District 1, HCMC',
+          'District 3, HCMC',
+          'Thao Dien, Thu Duc City',
+          'Phu Nhuan, HCMC',
+          'District 7, HCMC'
         ],
         policies: [
           'Beachfront Havens',
@@ -155,11 +155,11 @@ const resources = {
         searching: 'Đang tìm...',
         options: {
           destinations: {
-            all: 'Tất cả khu nghỉ dưỡng (Toàn cầu)',
-            amalfi: 'Bờ biển Amalfi, Ý',
-            kyoto: 'Arashiyama, Kyoto, Nhật Bản',
-            stbarts: 'St. Barts, Tây Ấn thuộc Pháp',
-            zermatt: 'Zermatt, Thụy Sĩ'
+            all: 'Tất cả các phòng (Hồ Chí Minh)',
+            amalfi: 'Quận 1, TP.HCM',
+            kyoto: 'Quận 3, TP.HCM',
+            stbarts: 'Thảo Điền, TP. Thủ Đức',
+            zermatt: 'Quận Phú Nhuận, TP.HCM'
           },
           guests: {
             g1: '1 Khách (Trú ẩn cá nhân)',
@@ -193,31 +193,31 @@ const resources = {
       },
       experience: {
         tag: 'Những Khoảnh Khắc Đáng Nhớ',
-        title: 'Trải nghiệm cùng Aurelle',
+        title: 'Trải nghiệm cùng The Imperial Haven',
         subtitle: 'Khách hàng của chúng tôi kể về những khoảnh khắc đọng lại mãi sau chuyến đi.',
         readMore: 'Đọc thêm câu chuyện'
       },
       footer: {
-        tag: 'AURELLE STAYS',
+        tag: 'THE IMPERIAL HAVEN',
         description: 'Tuyển chọn những nơi trú ẩn tinh tế và biệt lập nhất thế giới cho du khách hiện đại tìm kiếm sự tĩnh lặng sâu sắc.',
         destinations: 'Điểm đến',
         collectionsPolicies: 'Bộ sưu tập & Chính sách',
-        journal: 'Tạp chí Aurelle',
+        journal: 'Tạp chí The Imperial Haven',
         journalDesc: 'Nhận ấn phẩm hàng quý của chúng tôi về du lịch kiến trúc, quyền xem trước và các kỳ nghỉ không được niêm yết.',
         emailPh: 'Nhập địa chỉ email của bạn',
         joinBtn: 'Tham gia Ấn phẩm Riêng tư',
-        successMsg: '✓ Chào mừng. Bạn đã được đăng ký vào phiên bản riêng tư của Tạp chí Aurelle.',
+        successMsg: '✓ Chào mừng. Bạn đã được đăng ký vào phiên bản riêng tư của Tạp chí The Imperial Haven.',
         errorMsg: 'Vui lòng nhập địa chỉ email hợp lệ.',
-        copyright: '© 2026 AURELLE STAYS LTD. Đã đăng ký Bản quyền.',
+        copyright: '© 2026 THE IMPERIAL HAVEN LTD. Đã đăng ký Bản quyền.',
         disclaimer: '*Giao diện mô phỏng dịch vụ lưu trú cao cấp. Không có giao dịch đặt phòng hoặc thanh toán thực tế nào diễn ra.*'
       },
       footerLinks: {
         destinations: [
-          'Bờ biển Amalfi, Ý',
-          'Arashiyama, Kyoto, Nhật Bản',
-          'St. Barts, Tây Ấn thuộc Pháp',
-          'Zermatt, Thụy Sĩ',
-          'Santorini, Hy Lạp'
+          'Quận 1, TP.HCM',
+          'Quận 3, TP.HCM',
+          'Thảo Điền, TP. Thủ Đức',
+          'Quận Phú Nhuận, TP.HCM',
+          'Quận 7, TP.HCM'
         ],
         policies: [
           'Khu nghỉ dưỡng sát biển',

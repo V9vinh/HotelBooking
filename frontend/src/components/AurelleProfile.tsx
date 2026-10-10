@@ -20,10 +20,10 @@ interface BookingHistory {
   isReviewed: boolean;
 }
 
-export function AurelleProfile({ onBack }: { onBack: () => void }) {
+export function AurelleProfile({ onBack, initialTab = 'profile' }: { onBack: () => void, initialTab?: 'profile' | 'history' }) {
   const { user, updateProfile, logout } = useAuth();
   
-  const [activeTab, setActiveTab] = useState<'profile' | 'history'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'history'>(initialTab);
   
   const [formData, setFormData] = useState({
     hoTen: user?.hoTen || '',
@@ -128,16 +128,18 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
         >
           Hồ sơ cá nhân
         </button>
-        <button
-          onClick={() => setActiveTab('history')}
-          style={{
-            background: 'none', border: 'none', padding: '12px 0', fontSize: '16px', fontWeight: 600, cursor: 'pointer',
-            color: activeTab === 'history' ? 'var(--color-forest)' : 'var(--color-charcoal-muted)',
-            borderBottom: activeTab === 'history' ? '2px solid var(--color-forest)' : '2px solid transparent'
-          }}
-        >
-          Lịch sử đặt phòng
-        </button>
+        {user.vaiTro !== 'Admin' && (
+          <button
+            onClick={() => setActiveTab('history')}
+            style={{
+              background: 'none', border: 'none', padding: '12px 0', fontSize: '16px', fontWeight: 600, cursor: 'pointer',
+              color: activeTab === 'history' ? 'var(--color-forest)' : 'var(--color-charcoal-muted)',
+              borderBottom: activeTab === 'history' ? '2px solid var(--color-forest)' : '2px solid transparent'
+            }}
+          >
+            Lịch sử đặt phòng
+          </button>
+        )}
       </div>
 
       {activeTab === 'profile' && (
@@ -248,7 +250,7 @@ export function AurelleProfile({ onBack }: { onBack: () => void }) {
                     </div>
                     <div>
                       <div style={{ color: 'var(--color-charcoal-muted)' }}>Ngày đặt:</div>
-                      <div style={{ fontWeight: 600 }}>{new Date(booking.ngayDat).toLocaleString('vi-VN')}</div>
+                      <div style={{ fontWeight: 600 }}>{(() => { try { const [dp, tp] = (booking.ngayDat || '').split('T'); const [y,m,d] = dp.split('-'); return `${d}/${m}/${y}${tp ? ' ' + tp.substring(0,5) : ''}`; } catch { return booking.ngayDat; } })()}</div>
                     </div>
                     <div>
                       <div style={{ color: 'var(--color-charcoal-muted)' }}>Tổng tiền:</div>

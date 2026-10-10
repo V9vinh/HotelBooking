@@ -2,200 +2,242 @@ import type { HotelStay, CollectionCategory, Testimonial } from '../types/aurell
 
 const FEATURED_STAYS_EN: HotelStay[] = [
   {
-    id: 'stay-1',
-    title: 'InterContinental Danang Sun Peninsula',
-    subtitle: 'Luxury Resort & Spa in Monkey Mountain',
-    location: 'Da Nang',
+    id: '1',
+    title: 'Deluxe City View',
+    subtitle: 'Panoramic City Views',
+    location: 'Ho Chi Minh City',
     country: 'Vietnam',
-    collection: 'Beach Escapes',
-    pricePerNight: 8500000,
+    collection: 'Rooms',
+    pricePerNight: 2500000,
+    rating: 4.90,
+    reviewsCount: 120,
+    imageUrl: '/images/rooms/r1_1.jpg',
+    gallery: [
+      '/images/rooms/r1_1.jpg',
+      '/images/rooms/r1_2.jpg',
+      '/images/rooms/r1_3.jpg'
+    ],
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 480, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'A 45 sqm Deluxe Room offering sweeping views of downtown Ho Chi Minh City. Designed with a Warm Ivory and Forest Green palette.',
+    amenities: ['Wi-Fi', 'Smart TV 55"', 'Bathtub', 'Nespresso Coffee Machine'],
+    highlights: ['City skyline views', 'Luxurious bedding']
+  },
+  {
+    id: '2',
+    title: 'Premium Signature Suite',
+    subtitle: 'Executive Luxury',
+    location: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    collection: 'Suites',
+    pricePerNight: 4500000,
     rating: 4.98,
-    reviewsCount: 38,
-    imageUrl: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
+    reviewsCount: 85,
+    imageUrl: '/images/rooms/r2_1.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80'
+      '/images/rooms/r2_1.jpg',
+      '/images/rooms/r2_2.jpg',
+      '/images/rooms/r2_3.jpg'
     ],
-    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 750, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Designed by Bill Bensley, this multi-award winning resort cascades down the jungle-clad Son Tra Peninsula, featuring private beach access and exquisite dining experiences like La Maison 1888.',
-    amenities: ['Private Beach', 'Infinity Pool', 'La Maison 1888', 'HARNN Heritage Spa', 'Cable Car (Nam Tram)', 'Kids Club'],
-    highlights: ['Breathtaking ocean views', 'Unique architecture blending Vietnamese myth and luxury', 'Michelin-starred chef dining']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 915, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'An 85 sqm Premium Suite overlooking the Saigon River and Landmark 81. Includes exclusive Executive Lounge access.',
+    amenities: ['Executive Lounge', 'Wi-Fi', 'Smart TV 65"', 'Jacuzzi Bathtub', 'Artisan Lotus Tea'],
+    highlights: ['Panoramic river views', 'Executive Lounge access']
   },
   {
-    id: 'stay-2',
-    title: 'JW Marriott Phu Quoc Emerald Bay',
-    subtitle: 'Lamarck University Themed Resort',
-    location: 'Phu Quoc',
+    id: '3',
+    title: 'Family Connecting Room',
+    subtitle: 'Spacious Family Comfort',
+    location: 'Ho Chi Minh City',
     country: 'Vietnam',
-    collection: 'Beach Escapes',
-    pricePerNight: 7200000,
-    rating: 4.96,
-    reviewsCount: 42,
-    imageUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80'
-    ],
-    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 1200, hasInfinityPool: false, hasPrivateButler: false },
-    description: 'Step back in time to the mythical Lamarck University. Located on the pristine Khem Beach, this whimsical resort features uniquely themed departments, a seashell-shaped pool, and unparalleled luxury.',
-    amenities: ['Khem Beach Access', 'Chanterelle Spa', 'Shell Pool', 'Chemistry Bar', 'French Bakery', 'Water Sports'],
-    highlights: ['Unique university-themed architecture', 'Crystal clear waters of Emerald Bay', 'Exceptional Alice in Wonderland inspired spa']
-  },
-  {
-    id: 'stay-3',
-    title: 'Topas Ecolodge Sapa',
-    subtitle: 'Mountain Retreat Above the Clouds',
-    location: 'Sapa',
-    country: 'Vietnam',
-    collection: 'Mountain Retreats',
-    pricePerNight: 5500000,
-    rating: 4.99,
-    reviewsCount: 29,
-    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
-    ],
-    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 450, hasInfinityPool: true, hasPrivateButler: false },
-    description: 'Situated on a beautiful hilltop deep in the mountains of Hoang Lien National Park, Topas Ecolodge boasts stunning infinity pools overlooking terraced rice fields and offers a true escape from modern life.',
-    amenities: ['Heated Infinity Pool', 'Rice Terrace Views', 'Red Dao Herbal Bath', 'Stilt House Restaurant', 'Mountain Biking', 'Trekking Tours'],
-    highlights: ['Voted top eco-lodge by National Geographic', 'Stunning panoramic mountain and valley views', 'Sustainable and eco-friendly practices']
-  },
-  {
-    id: 'stay-4',
-    title: 'The Alpine Glass Chalet',
-    subtitle: 'Glacial Vistas & Timber Warmth',
-    location: 'Zermatt',
-    country: 'Switzerland',
-    collection: 'Mountain Retreats',
-    pricePerNight: 980,
+    collection: 'Family',
+    pricePerNight: 5200000,
     rating: 4.95,
-    reviewsCount: 31,
-    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
+    reviewsCount: 64,
+    imageUrl: '/images/rooms/r3_1.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
+      '/images/rooms/r3_1.jpg',
+      '/images/rooms/r3_2.jpg',
+      '/images/rooms/r3_3.jpg'
     ],
-    specs: { guests: 6, bedrooms: 3, bathrooms: 3, areaSqFt: 3400, hasInfinityPool: false, hasPrivateButler: true },
-    description: 'An engineering marvel suspended above pine valleys. Floor-to-ceiling glass frames the iconic Matterhorn, while geothermal heat, reclaimed larch wood, and a stone hearth create an intimate winter haven.',
-    amenities: ['Ski-in / Ski-out Chauffeur', 'Cedar Sauna & Cold Plunge', 'Matterhorn View Hearth', 'Heated Ski Boot Room', 'Fondue & Truffle Cellar', 'Private Mountain Guide'],
-    highlights: ['Unrivaled Matterhorn sunrise view', 'Warm Nordic architectural minimalism', 'Helicopter transfer from Zurich/Geneva']
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 960, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'A 90 sqm connecting room ideal for families, offering privacy while keeping everyone together.',
+    amenities: ['Wi-Fi', '2 Smart TVs', '2 Bathrooms', 'Private Dining Area'],
+    highlights: ['Ideal for families', 'Spacious layout']
+  },
+  {
+    id: '4',
+    title: 'Executive River View',
+    subtitle: 'Sunset Over The River',
+    location: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    collection: 'Rooms',
+    pricePerNight: 3200000,
+    rating: 4.92,
+    reviewsCount: 45,
+    imageUrl: '/images/rooms/r4_1.jpg',
+    gallery: [
+      '/images/rooms/r4_1.jpg',
+      '/images/rooms/r4_2.jpg',
+      '/images/rooms/r4_3.jpg'
+    ],
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 590, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Located on high floors, this 55 sqm Executive Room offers breathtaking sunset views over the Saigon River.',
+    amenities: ['Executive Lounge', 'Complimentary Minibar', 'Turndown Service'],
+    highlights: ['Stunning sunset views', 'High floor location']
+  },
+  {
+    id: '5',
+    title: 'The Imperial Haven Presidential Suite',
+    subtitle: 'The Ultimate Luxury',
+    location: 'Ho Chi Minh City',
+    country: 'Vietnam',
+    collection: 'Suites',
+    pricePerNight: 15000000,
+    rating: 5.0,
+    reviewsCount: 12,
+    imageUrl: '/images/rooms/r5_1.jpg',
+    gallery: [
+      '/images/rooms/r5_1.jpg',
+      '/images/rooms/r5_2.jpg',
+      '/images/rooms/r5_3.jpg'
+    ],
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 2690, hasInfinityPool: false, hasPrivateButler: true },
+    description: 'The pinnacle of luxury. A 250 sqm Presidential Suite with bespoke furniture, delivering a royal experience in the heart of Saigon.',
+    amenities: ['24/7 Private Butler', 'Private Kitchen', 'Private Meeting Room', 'Airport Transfer'],
+    highlights: ['250 sqm of pure luxury', 'Private butler service']
   }
 ];
 
 const COLLECTIONS_EN: CollectionCategory[] = [
-  { id: 'Beach Escapes', title: 'Beach Escapes', description: 'Sun-drenched private shores, warm breezes, and secluded azure waters.', count: 24, imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-  { id: 'Mountain Retreats', title: 'Mountain Retreats', description: 'Pristine alpine air, quiet cedar pavilions, and sweeping summit horizons.', count: 18, imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80' },
-  { id: 'Private Villas', title: 'Private Villas', description: 'Entire standalone estates designed for complete sovereignty and tranquility.', count: 31, imageUrl: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80' }
+  { id: 'Rooms', title: 'Premium Rooms', description: 'Elegant rooms offering stunning city and river views.', count: 12, imageUrl: '/images/rooms/r1_1.jpg' },
+  { id: 'Suites', title: 'Luxury Suites', description: 'Spacious suites with exclusive Executive Lounge privileges.', count: 5, imageUrl: '/images/rooms/r2_1.jpg' },
+  { id: 'Family', title: 'Family Rooms', description: 'Connecting rooms designed for perfect family getaways.', count: 3, imageUrl: '/images/rooms/r3_1.jpg' }
 ];
 
 const TESTIMONIALS_EN: Testimonial[] = [
-  { id: 'test-1', author: 'Elena & Marcus Vance', title: 'Design Director & Architect', location: 'London, UK', stayName: 'Villa Sole di Amalfi', rating: 5, quote: 'Aurelle Stays curated our entire fortnight on the Amalfi Coast with effortless discretion. The architecture, the bespoke morning sail, and the stillness of Positano at dawn are burned into our memories.', date: 'August 2026' },
-  { id: 'test-2', author: 'Kenji Takahashi', title: 'Venture Partner', location: 'San Francisco, CA', stayName: 'Kyoto Zen Sanctuary', rating: 5, quote: 'In twenty years of luxury travel, rarely have I witnessed such profound architectural harmony. The private onsen amidst the bamboo forest provided the deepest mental rest I have ever experienced.', date: 'September 2026' },
-  { id: 'test-3', author: 'Claire de Montmirail', title: 'Art Historian', location: 'Paris, France', stayName: 'The Alpine Glass Chalet', rating: 5, quote: 'Waking up to the Matterhorn bathed in golden alpine glow without another soul in sight. Aurelle’s concierge team handled every minute detail with grace and elegance.', date: 'January 2026' }
+  { id: 'test-1', author: 'Elena & Marcus Vance', title: 'Design Director & Architect', location: 'London, UK', stayName: 'Premium Signature Suite', rating: 5, quote: 'The Imperial Haven Ho Chi Minh curated our entire weekend with effortless discretion. The architecture, the river view, and the stillness of the suite are burned into our memories.', date: 'August 2026' },
+  { id: 'test-2', author: 'Kenji Takahashi', title: 'Venture Partner', location: 'San Francisco, CA', stayName: 'The Imperial Haven Presidential Suite', rating: 5, quote: 'In twenty years of luxury travel, rarely have I witnessed such profound architectural harmony in a bustling city. The private butler service was impeccable.', date: 'September 2026' },
+  { id: 'test-3', author: 'Claire de Montmirail', title: 'Art Historian', location: 'Paris, France', stayName: 'Deluxe City View', rating: 5, quote: 'Waking up to the Saigon skyline bathed in golden dawn light was magical. The Imperial Haven’s concierge team handled every minute detail with grace and elegance.', date: 'January 2026' }
 ];
 
 const FEATURED_STAYS_VI: HotelStay[] = [
   {
-    id: 'stay-1',
-    title: 'InterContinental Danang Sun Peninsula',
-    subtitle: 'Khu nghỉ dưỡng & Spa sang trọng trên núi Sơn Trà',
-    location: 'Đà Nẵng',
+    id: '1',
+    title: 'Deluxe City View',
+    subtitle: 'Tầm nhìn toàn cảnh thành phố',
+    location: 'Hồ Chí Minh',
     country: 'Việt Nam',
-    collection: 'Beach Escapes',
-    pricePerNight: 8500000,
+    collection: 'Rooms',
+    pricePerNight: 2500000,
+    rating: 4.90,
+    reviewsCount: 120,
+    imageUrl: '/images/rooms/r1_1.jpg',
+    gallery: [
+      '/images/rooms/r1_1.jpg',
+      '/images/rooms/r1_2.jpg',
+      '/images/rooms/r1_3.jpg'
+    ],
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 480, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Phòng Deluxe rộng 45m2 với tầm nhìn toàn cảnh trung tâm thành phố. Thiết kế sang trọng với tông màu Warm Ivory và điểm nhấn Forest Green.',
+    amenities: ['Wi-Fi', 'Smart TV 55"', 'Bồn tắm nằm', 'Máy pha cà phê Nespresso'],
+    highlights: ['Tầm nhìn tuyệt đẹp ra trung tâm thành phố', 'Nội thất sang trọng']
+  },
+  {
+    id: '2',
+    title: 'Premium Signature Suite',
+    subtitle: 'Đặc quyền thượng lưu',
+    location: 'Hồ Chí Minh',
+    country: 'Việt Nam',
+    collection: 'Suites',
+    pricePerNight: 4500000,
     rating: 4.98,
-    reviewsCount: 38,
-    imageUrl: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
+    reviewsCount: 85,
+    imageUrl: '/images/rooms/r2_1.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80'
+      '/images/rooms/r2_1.jpg',
+      '/images/rooms/r2_2.jpg',
+      '/images/rooms/r2_3.jpg'
     ],
-    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 750, hasInfinityPool: true, hasPrivateButler: true },
-    description: 'Được thiết kế bởi Bill Bensley, khu nghỉ dưỡng từng đoạt nhiều giải thưởng này nằm thoai thoải trên Bán đảo Sơn Trà ngợp bóng cây, với bãi biển riêng và trải nghiệm ẩm thực tinh tế như nhà hàng La Maison 1888.',
-    amenities: ['Bãi biển riêng', 'Hồ bơi vô cực', 'Nhà hàng La Maison 1888', 'HARNN Heritage Spa', 'Tàu hỏa leo núi Nam Tram', 'Câu lạc bộ trẻ em'],
-    highlights: ['Tầm nhìn ngoạn mục ra đại dương', 'Kiến trúc độc đáo kết hợp huyền thoại Việt Nam và sự sang trọng', 'Trải nghiệm ăn tối với đầu bếp sao Michelin']
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 915, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Suite cao cấp 85m2 với tầm nhìn bao quát Sông Sài Gòn và Landmark 81. Đặc quyền sử dụng Executive Lounge.',
+    amenities: ['Executive Lounge', 'Wi-Fi', 'Smart TV 65"', 'Bồn tắm jacuzzi', 'Trà sen thủ công'],
+    highlights: ['Tầm nhìn bao quát Sông Sài Gòn', 'Đặc quyền Executive Lounge']
   },
   {
-    id: 'stay-2',
-    title: 'JW Marriott Phu Quoc Emerald Bay',
-    subtitle: 'Khu nghỉ dưỡng chủ đề Đại học Lamarck',
-    location: 'Phú Quốc',
+    id: '3',
+    title: 'Family Connecting Room',
+    subtitle: 'Không gian gia đình rộng rãi',
+    location: 'Hồ Chí Minh',
     country: 'Việt Nam',
-    collection: 'Beach Escapes',
-    pricePerNight: 7200000,
-    rating: 4.96,
-    reviewsCount: 42,
-    imageUrl: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80'
-    ],
-    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 1200, hasInfinityPool: false, hasPrivateButler: false },
-    description: 'Trở về quá khứ với trường đại học Lamarck huyền thoại. Tọa lạc trên bãi Khem tuyệt đẹp, khu nghỉ dưỡng độc đáo này mang chủ đề các khoa học kỳ thú, hồ bơi hình con sò và sự xa hoa không gì sánh bằng.',
-    amenities: ['Bãi biển Khem', 'Chanterelle Spa', 'Hồ bơi hình con sò', 'Quầy bar Hóa học', 'Tiệm bánh Pháp', 'Thể thao dưới nước'],
-    highlights: ['Kiến trúc chủ đề đại học độc đáo', 'Làn nước trong vắt của vịnh Ngọc lục bảo', 'Spa lấy cảm hứng từ Alice in Wonderland']
-  },
-  {
-    id: 'stay-3',
-    title: 'Topas Ecolodge Sapa',
-    subtitle: 'Nơi ẩn mình trên những tầng mây',
-    location: 'Sapa',
-    country: 'Việt Nam',
-    collection: 'Mountain Retreats',
-    pricePerNight: 5500000,
-    rating: 4.99,
-    reviewsCount: 29,
-    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
-    ],
-    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 450, hasInfinityPool: true, hasPrivateButler: false },
-    description: 'Nằm trên một đỉnh đồi tuyệt đẹp sâu trong dãy núi của Vườn quốc gia Hoàng Liên, Topas Ecolodge tự hào với những hồ bơi vô cực ngắm nhìn những thửa ruộng bậc thang, mang đến một lối thoát thực sự khỏi nhịp sống hiện đại.',
-    amenities: ['Hồ bơi vô cực nước ấm', 'Tầm nhìn ruộng bậc thang', 'Tắm lá thuốc người Dao Đỏ', 'Nhà hàng nhà sàn', 'Đạp xe leo núi', 'Tour đi bộ leo núi'],
-    highlights: ['Được National Geographic bình chọn là khu nghỉ dưỡng sinh thái hàng đầu', 'Tầm nhìn toàn cảnh thung lũng ngoạn mục', 'Thực hành bền vững và thân thiện với môi trường']
-  },
-  {
-    id: 'stay-4',
-    title: 'Biệt thự kính The Alpine',
-    subtitle: 'Khung cảnh Sông băng & Ấm áp Gỗ',
-    location: 'Zermatt',
-    country: 'Thụy Sĩ',
-    collection: 'Mountain Retreats',
-    pricePerNight: 24500000,
+    collection: 'Family',
+    pricePerNight: 5200000,
     rating: 4.95,
-    reviewsCount: 31,
-    imageUrl: 'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
+    reviewsCount: 64,
+    imageUrl: '/images/rooms/r3_1.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
+      '/images/rooms/r3_1.jpg',
+      '/images/rooms/r3_2.jpg',
+      '/images/rooms/r3_3.jpg'
     ],
-    specs: { guests: 6, bedrooms: 3, bathrooms: 3, areaSqFt: 3400, hasInfinityPool: false, hasPrivateButler: true },
-    description: 'Một tuyệt tác kỹ thuật treo lơ lửng trên thung lũng thông. Lớp kính từ trần đến sàn mở ra khung cảnh Matterhorn biểu tượng, cùng với hệ thống sưởi địa nhiệt, gỗ thông phục chế và lò sưởi đá tạo nên một nơi trú ẩn mùa đông ấm cúng.',
-    amenities: ['Chauffeur trượt tuyết riêng', 'Phòng xông hơi gỗ tuyết tùng', 'Lò sưởi ngắm Matterhorn', 'Phòng sưởi dụng cụ trượt tuyết', 'Hầm phô mai & nấm Truffle', 'Hướng dẫn viên vùng núi'],
-    highlights: ['Bình minh Matterhorn vô song', 'Kiến trúc tối giản Bắc Âu', 'Đưa đón bằng trực thăng']
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 960, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Phòng thông nhau lý tưởng cho gia đình, rộng 90m2. Thiết kế linh hoạt mang lại sự riêng tư nhưng vẫn gắn kết.',
+    amenities: ['Wi-Fi', '2 Smart TV', '2 Phòng tắm', 'Khu vực ăn uống riêng'],
+    highlights: ['Thiết kế lý tưởng cho gia đình', 'Không gian rộng rãi, thoải mái']
+  },
+  {
+    id: '4',
+    title: 'Executive River View',
+    subtitle: 'Hoàng hôn trên Sông Sài Gòn',
+    location: 'Hồ Chí Minh',
+    country: 'Việt Nam',
+    collection: 'Rooms',
+    pricePerNight: 3200000,
+    rating: 4.92,
+    reviewsCount: 45,
+    imageUrl: '/images/rooms/r4_1.jpg',
+    gallery: [
+      '/images/rooms/r4_1.jpg',
+      '/images/rooms/r4_2.jpg',
+      '/images/rooms/r4_3.jpg'
+    ],
+    specs: { guests: 2, bedrooms: 1, bathrooms: 1, areaSqFt: 590, hasInfinityPool: false, hasPrivateButler: false },
+    description: 'Nằm trên các tầng cao, phòng Executive 55m2 mang đến khung cảnh hoàng hôn tuyệt đẹp trên sông Sài Gòn.',
+    amenities: ['Executive Lounge', 'Minibar miễn phí', 'Dịch vụ chỉnh trang phòng'],
+    highlights: ['Tầm nhìn hoàng hôn tuyệt đẹp', 'Vị trí tầng cao yên tĩnh']
+  },
+  {
+    id: '5',
+    title: 'The Imperial Haven Presidential Suite',
+    subtitle: 'Biểu tượng của sự xa hoa',
+    location: 'Hồ Chí Minh',
+    country: 'Việt Nam',
+    collection: 'Suites',
+    pricePerNight: 15000000,
+    rating: 5.0,
+    reviewsCount: 12,
+    imageUrl: '/images/rooms/r5_1.jpg',
+    gallery: [
+      '/images/rooms/r5_1.jpg',
+      '/images/rooms/r5_2.jpg',
+      '/images/rooms/r5_3.jpg'
+    ],
+    specs: { guests: 4, bedrooms: 2, bathrooms: 2, areaSqFt: 2690, hasInfinityPool: false, hasPrivateButler: true },
+    description: 'Biểu tượng của sự xa hoa, Suite Tổng thống rộng 250m2 với nội thất độc bản, mang đến trải nghiệm hoàng gia giữa lòng Sài Gòn.',
+    amenities: ['Quản gia riêng 24/7', 'Bếp riêng', 'Phòng họp riêng', 'Đưa đón sân bay'],
+    highlights: ['Trải nghiệm hoàng gia độc bản', 'Dịch vụ quản gia riêng tận tâm']
   }
 ];
 
 const COLLECTIONS_VI: CollectionCategory[] = [
-  { id: 'Beach Escapes', title: 'Khu nghỉ dưỡng biển', description: 'Những bờ biển riêng rực nắng, làn gió ấm áp và làn nước xanh biếc hẻo lánh.', count: 24, imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-  { id: 'Mountain Retreats', title: 'Nơi trú ẩn vùng núi', description: 'Không khí trong lành của dãy Alps, những gian hàng tuyết tùng yên tĩnh và đường chân trời ngập tràn đỉnh núi.', count: 18, imageUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80' },
-  { id: 'Private Villas', title: 'Biệt thự riêng tư', description: 'Toàn bộ các điền trang độc lập được thiết kế cho sự tĩnh lặng và tự do tuyệt đối.', count: 31, imageUrl: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80' }
+  { id: 'Rooms', title: 'Phòng Cao Cấp', description: 'Các hạng phòng thanh lịch với tầm nhìn tuyệt đẹp ra thành phố và sông Sài Gòn.', count: 12, imageUrl: '/images/rooms/r1_1.jpg' },
+  { id: 'Suites', title: 'Suite Thượng Hạng', description: 'Không gian rộng rãi với đặc quyền độc quyền tại Executive Lounge.', count: 5, imageUrl: '/images/rooms/r2_1.jpg' },
+  { id: 'Family', title: 'Phòng Gia Đình', description: 'Thiết kế thông nhau mang lại sự gắn kết trọn vẹn cho kỷ nghỉ gia đình.', count: 3, imageUrl: '/images/rooms/r3_1.jpg' }
 ];
 
 const TESTIMONIALS_VI: Testimonial[] = [
-  { id: 'test-1', author: 'Elena & Marcus Vance', title: 'Giám đốc thiết kế & Kiến trúc sư', location: 'London, Anh', stayName: 'Villa Sole di Amalfi', rating: 5, quote: 'Aurelle Stays đã lên kế hoạch cho toàn bộ hai tuần của chúng tôi trên bờ biển Amalfi với sự kín đáo dễ dàng. Kiến trúc, chuyến đi thuyền buồm đặt riêng vào buổi sáng và sự tĩnh lặng của Positano lúc bình minh đã in sâu vào ký ức của chúng tôi.', date: 'Tháng 8, 2026' },
-  { id: 'test-2', author: 'Kenji Takahashi', title: 'Đối tác Đầu tư', location: 'San Francisco, Mỹ', stayName: 'Kyoto Zen Sanctuary', rating: 5, quote: 'Trong 20 năm du lịch hạng sang, hiếm khi tôi chứng kiến sự hài hòa kiến trúc sâu sắc đến vậy. Onsen riêng tư giữa rừng tre mang đến sự tĩnh tâm sâu sắc nhất mà tôi từng trải nghiệm.', date: 'Tháng 9, 2026' },
-  { id: 'test-3', author: 'Claire de Montmirail', title: 'Nhà sử học Nghệ thuật', location: 'Paris, Pháp', stayName: 'The Alpine Glass Chalet', rating: 5, quote: 'Thức dậy với đỉnh Matterhorn tắm trong ánh sáng rực rỡ của dãy núi cao mà không có một bóng người. Đội ngũ trợ lý của Aurelle xử lý từng chi tiết nhỏ bằng sự duyên dáng và thanh lịch.', date: 'Tháng 1, 2026' }
+  { id: 'test-1', author: 'Elena & Marcus Vance', title: 'Giám đốc thiết kế', location: 'London, Anh', stayName: 'Premium Signature Suite', rating: 5, quote: 'The Imperial Haven Ho Chi Minh mang đến một trải nghiệm nghỉ dưỡng hoàn hảo giữa lòng đô thị. Tầm nhìn ra sông Sài Gòn từ Suite thực sự khó quên.', date: 'Tháng 8, 2026' },
+  { id: 'test-2', author: 'Kenji Takahashi', title: 'Đối tác Đầu tư', location: 'San Francisco, Mỹ', stayName: 'The Imperial Haven Presidential Suite', rating: 5, quote: 'Một ốc đảo tĩnh lặng và xa hoa đáng kinh ngạc giữa Sài Gòn nhộn nhịp. Dịch vụ quản gia riêng chuyên nghiệp đến mức hoàn hảo.', date: 'Tháng 9, 2026' },
+  { id: 'test-3', author: 'Claire de Montmirail', title: 'Nhà sử học Nghệ thuật', location: 'Paris, Pháp', stayName: 'Deluxe City View', rating: 5, quote: 'Thức dậy cùng ánh bình minh chiếu rọi qua những tòa nhà chọc trời của Sài Gòn. Đội ngũ The Imperial Haven đã chăm chút từng chi tiết nhỏ nhất.', date: 'Tháng 1, 2026' }
 ];
 
 export const getAurelleData = (lang: string) => {

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class ProfileDTO {
     private Integer maKH;
     private String tenDangNhap;
+    private String vaiTro;
     private String hoTen;
     private String sdt;
     private String email;
@@ -18,9 +19,12 @@ public class ProfileDTO {
     private GioiTinh gioiTinh;
     private LocalDateTime ngayTao;
 
-    public ProfileDTO(KhachHang khachHang, String tenDangNhap) {
+    public ProfileDTO() {}
+
+    public ProfileDTO(KhachHang khachHang, String tenDangNhap, String vaiTro) {
         this.maKH = khachHang.getMaKH();
         this.tenDangNhap = tenDangNhap;
+        this.vaiTro = vaiTro;
         this.hoTen = khachHang.getHoTen();
         this.sdt = khachHang.getSdt();
         this.email = khachHang.getEmail();
@@ -36,6 +40,9 @@ public class ProfileDTO {
 
     public String getTenDangNhap() { return tenDangNhap; }
     public void setTenDangNhap(String tenDangNhap) { this.tenDangNhap = tenDangNhap; }
+
+    public String getVaiTro() { return vaiTro; }
+    public void setVaiTro(String vaiTro) { this.vaiTro = vaiTro; }
 
     public String getHoTen() { return hoTen; }
     public void setHoTen(String hoTen) { this.hoTen = hoTen; }

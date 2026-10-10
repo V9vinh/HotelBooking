@@ -1,6 +1,7 @@
 package com.hotelbooking.backend.repository;
 
 import com.hotelbooking.backend.entity.Phong;
+import com.hotelbooking.backend.entity.TrangThaiPhieuDat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,10 @@ public interface PhongRepository extends JpaRepository<Phong, Integer> {
 
     @Query("SELECT p FROM Phong p WHERE p.loaiPhong.maLoaiPhong = :maLoaiPhong AND p.maPhong NOT IN (" +
            "SELECT c.phong.maPhong FROM ChiTietDatPhong c JOIN c.phieuDatPhong ph " +
-           "WHERE ph.trangThai NOT IN ('DaHuy', 'DaCheckOut') " +
+           "WHERE ph.trangThai NOT IN :excludedStatuses " +
            "AND ph.ngayNhan < :ngayTra AND ph.ngayTra > :ngayNhan)")
     List<Phong> findAvailableRooms(@Param("maLoaiPhong") Integer maLoaiPhong,
                                    @Param("ngayNhan") LocalDate ngayNhan,
-                                   @Param("ngayTra") LocalDate ngayTra);
+                                   @Param("ngayTra") LocalDate ngayTra,
+                                   @Param("excludedStatuses") List<TrangThaiPhieuDat> excludedStatuses);
 }

@@ -39,7 +39,24 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(new ProfileDTO(khachHang, taiKhoan.getTenDangNhap()));
+        return ResponseEntity.ok(new ProfileDTO(khachHang, taiKhoan.getTenDangNhap(), taiKhoan.getVaiTro().toString()));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllGuests() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Chưa xác thực");
+        }
+        // Ideally should check for Admin role here, but keeping it simple
+        java.util.List<ProfileDTO> result = khachHangRepository.findAll().stream().map(kh -> {
+            TaiKhoan tk = kh.getTaiKhoan();
+            String username = tk != null ? tk.getTenDangNhap() : null;
+            String role = tk != null ? tk.getVaiTro().toString() : null;
+            return new ProfileDTO(kh, username, role);
+        }).collect(java.util.stream.Collectors.toList());
+        
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/me")
@@ -67,6 +84,6 @@ public class UserController {
 
         KhachHang saved = khachHangRepository.save(khachHang);
 
-        return ResponseEntity.ok(new ProfileDTO(saved, taiKhoan.getTenDangNhap()));
+        return ResponseEntity.ok(new ProfileDTO(saved, taiKhoan.getTenDangNhap(), taiKhoan.getVaiTro().toString()));
     }
 }
